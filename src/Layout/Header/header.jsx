@@ -14,7 +14,7 @@ export const WelcomeHeader = () => {
           <Link to={"/"}>
             <p
               className="font-[700] hover:shadow-none cursor-pointer max-w-fit text-[#f04a4f] text-[25px]"
-              style={{ textShadow: "-4px 4px 3.5px rgba(0, 0, 0, 0.35)" }}
+              style={{ textShadow: "-3px 3px 3.5px rgba(0, 0, 0, 0.35)" }}
             >
               CyberNexus
             </p>

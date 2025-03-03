@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { WelcomeHeader } from "../Pages/Welcome/Header";
+import { WelcomeHeader } from "./Header";
 export const Layout = () => {
   return (
     <>
