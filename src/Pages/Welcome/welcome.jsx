@@ -126,7 +126,7 @@ export const Welcome = () => {
         <div
           className={classNames(
             "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 animate-[box-opacity-left-animation_0.9s_ease-in-out_4.5s_forwards] opacity-0 border-gray-100 p-[5px] rounded-[5px]",
-            "flex flex-col md:flex-row items-center"
+            "flex flex-col md:flex-row-reverse items-center"
           )}
         >
           <div className="w-full max-w-full">
