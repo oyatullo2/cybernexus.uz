@@ -44,7 +44,8 @@ export const Contact = () => {
               className={classNames(
                 "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
                 {
-                  "bg-blue-50 hover:bg-blue-100 text-gray-700": mode === "light",
+                  "bg-blue-50 hover:bg-blue-100 text-gray-700":
+                    mode === "light",
                   "bg-blue-900 hover:bg-blue-800 text-white": mode === "dark",
                 }
               )}
@@ -61,7 +62,8 @@ export const Contact = () => {
               className={classNames(
                 "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
                 {
-                  "bg-pink-50 hover:bg-pink-100 text-gray-700": mode === "light",
+                  "bg-pink-50 hover:bg-pink-100 text-gray-700":
+                    mode === "light",
                   "bg-pink-900 hover:bg-pink-800 text-white": mode === "dark",
                 }
               )}
@@ -78,7 +80,8 @@ export const Contact = () => {
               className={classNames(
                 "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
                 {
-                  "bg-green-100 hover:bg-green-200 text-gray-700": mode === "light",
+                  "bg-green-100 hover:bg-green-200 text-gray-700":
+                    mode === "light",
                   "bg-green-900 hover:bg-green-800 text-white": mode === "dark",
                 }
               )}
@@ -93,7 +96,8 @@ export const Contact = () => {
               className={classNames(
                 "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
                 {
-                  "bg-green-50 hover:bg-green-100 text-gray-700": mode === "light",
+                  "bg-green-50 hover:bg-green-100 text-gray-700":
+                    mode === "light",
                   "bg-green-900 hover:bg-green-800 text-white": mode === "dark",
                 }
               )}
@@ -125,7 +129,8 @@ export const Contact = () => {
               className={classNames(
                 "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
                 {
-                  "bg-gray-50 hover:bg-gray-100 text-gray-700": mode === "light",
+                  "bg-gray-50 hover:bg-gray-100 text-gray-700":
+                    mode === "light",
                   "bg-gray-700 hover:bg-gray-600 text-white": mode === "dark",
                 }
               )}
