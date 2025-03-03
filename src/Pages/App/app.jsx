@@ -1,7 +1,7 @@
 export const App = () => {
     return(
         <>
-        App page !
+        <p>App page !</p>
         </>
     )
 }

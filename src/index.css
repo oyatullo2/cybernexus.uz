@@ -10,3 +10,46 @@
 * {
   font-family: "Poppins", sans-serif;
 }
+
+/* index.css */
+:root {
+  /* Light theme variables (default) */
+  --text-color: #f04a4f;
+  --header-color: #E5E7EB;
+  --bg-color: white;
+}
+
+/* Dark theme variables */
+[data-theme="dark"] {
+  --text-color: white; /* blue */
+  --header-color: rgb(15, 14, 14);
+  --bg-color: rgb(10, 10, 10);
+}
+
+/* Apply the variables globally */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Override specific components if needed */
+.welcome-text {
+  color: var(--text-color);
+}
+
+/* Ensure the header maintains its own background */
+.header-container {
+  /* background-color: #276bf3; gray-200 equivalent */
+  background-color: var(--header-color);
+}
+
+/* If header needs to respect theme bg in some scenarios */
+/* .header-container[data-theme="dark"] { */
+  /* background-color: #2e4a72; A darker gray for dark mode */
+/* } */
+
+/* Ensure links and other elements use the theme text color */
+a,
+p {
+  color: var(--text-color);
+}
