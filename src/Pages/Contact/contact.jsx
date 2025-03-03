@@ -35,23 +35,22 @@ export const Contact = () => {
           )}
         >
           {/* Social Media Links */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6 sm:gap-4">
             {/* Telegram */}
             <a
               href="https://t.me/snovden_01"
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-4 p-4 rounded-md transition-colors",
+                "flex items-center space-x-4 p-4 rounded-md transition-colors min-w-0",
                 {
-                  "bg-blue-50 hover:bg-blue-100 text-gray-700":
-                    mode === "light",
+                  "bg-blue-50 hover:bg-blue-100 text-gray-700": mode === "light",
                   "bg-blue-900 hover:bg-blue-800 text-white": mode === "dark",
                 }
               )}
             >
-              <FaTelegram className="w-7 h-7 text-blue-500" />
-              <span className="text-lg">Telegram</span>
+              <FaTelegram className="w-7 h-7 text-blue-500 flex-shrink-0" />
+              <span className="text-lg truncate">Telegram</span>
             </a>
 
             {/* Instagram */}
@@ -60,16 +59,15 @@ export const Contact = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-4 p-4 rounded-md transition-colors",
+                "flex items-center space-x-4 p-4 rounded-md transition-colors min-w-0",
                 {
-                  "bg-pink-50 hover:bg-pink-100 text-gray-700":
-                    mode === "light",
+                  "bg-pink-50 hover:bg-pink-100 text-gray-700": mode === "light",
                   "bg-pink-900 hover:bg-pink-800 text-white": mode === "dark",
                 }
               )}
             >
-              <FaInstagram className="w-7 h-7 text-pink-500" />
-              <span className="text-lg">Instagram</span>
+              <FaInstagram className="w-7 h-7 text-pink-500 flex-shrink-0" />
+              <span className="text-lg truncate">Instagram</span>
             </a>
 
             {/* WhatsApp */}
@@ -78,47 +76,45 @@ export const Contact = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-4 p-4 rounded-md transition-colors",
+                "flex items-center space-x-4 p-4 rounded-md transition-colors min-w-0",
                 {
-                  "bg-green-100 hover:bg-green-200 text-gray-700":
-                    mode === "light",
+                  "bg-green-100 hover:bg-green-200 text-gray-700": mode === "light",
                   "bg-green-900 hover:bg-green-800 text-white": mode === "dark",
                 }
               )}
             >
-              <FaWhatsapp className="w-7 h-7 text-green-600" />
-              <span className="text-lg">WhatsApp</span>
+              <FaWhatsapp className="w-7 h-7 text-green-600 flex-shrink-0" />
+              <span className="text-lg truncate">WhatsApp</span>
             </a>
 
             {/* Phone */}
             <a
               href="tel:+998935188508"
               className={classNames(
-                "flex items-center space-x-4 p-4 rounded-md transition-colors",
+                "flex items-center space-x-4 p-4 rounded-md transition-colors min-w-0",
                 {
-                  "bg-green-50 hover:bg-green-100 text-gray-700":
-                    mode === "light",
+                  "bg-green-50 hover:bg-green-100 text-gray-700": mode === "light",
                   "bg-green-900 hover:bg-green-800 text-white": mode === "dark",
                 }
               )}
             >
-              <FaPhone className="w-7 h-7 text-green-500" />
-              <span className="text-lg">Phone</span>
+              <FaPhone className="w-7 h-7 text-green-500 flex-shrink-0" />
+              <span className="text-lg truncate">Phone</span>
             </a>
 
             {/* Gmail */}
             <a
               href="mailto:izzatullayev008@gmail.com"
               className={classNames(
-                "flex items-center space-x-4 p-4 rounded-md transition-colors",
+                "flex items-center space-x-4 p-4 rounded-md transition-colors min-w-0",
                 {
                   "bg-red-50 hover:bg-red-100 text-gray-700": mode === "light",
                   "bg-red-900 hover:bg-red-800 text-white": mode === "dark",
                 }
               )}
             >
-              <FaEnvelope className="w-7 h-7 text-red-500" />
-              <span className="text-lg">Email</span>
+              <FaEnvelope className="w-7 h-7 text-red-500 flex-shrink-0" />
+              <span className="text-lg truncate">Email</span>
             </a>
 
             {/* GitHub */}
@@ -127,16 +123,15 @@ export const Contact = () => {
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-4 p-4 rounded-md transition-colors",
+                "flex items-center space-x-4 p-4 rounded-md transition-colors min-w-0",
                 {
-                  "bg-gray-50 hover:bg-gray-100 text-gray-700":
-                    mode === "light",
+                  "bg-gray-50 hover:bg-gray-100 text-gray-700": mode === "light",
                   "bg-gray-700 hover:bg-gray-600 text-white": mode === "dark",
                 }
               )}
             >
-              <FaGithub className="w-7 h-7 text-gray-800" />
-              <span className="text-lg">GitHub</span>
+              <FaGithub className="w-7 h-7 text-gray-800 flex-shrink-0" />
+              <span className="text-lg truncate">GitHub</span>
             </a>
           </div>
         </div>
