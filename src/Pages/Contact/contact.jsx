@@ -14,7 +14,7 @@ export const Contact = () => {
   const { mode } = useContext(GlobalContext);
   return (
     <>
-      <div className="w-full mt-[-50px] animate-[header-top-animation_1.6s_ease-in-out] flex flex-col items-center max-w-full h-screen overflow-hidden justify-center">
+      <div className="w-full mt-[-50px] animate-[header-top-animation_1.5s_ease-in-out] flex flex-col items-center max-w-full h-screen overflow-hidden justify-center">
         <h2
           className={classNames("text-3xl font-bold mb-8", {
             "text-white": mode === "dark",
