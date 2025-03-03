@@ -78,27 +78,40 @@ export const WelcomeHeader = () => {
           <p className="cursor-pointer">Help</p>
         </Link>
         <label htmlFor="mode" onClick={handleMode}>
+          <div
+            className={classNames(
+              "w-[55px] h-[23px] transition-all duration-500 ease-in-out bg-transparent border-[2px] rounded-[20px] relative",
+              {
+                "border-orange-500": mode === "light",
+                "border-gray-500": mode === "dark",
+              }
+            )}
+          >
             <div
               className={classNames(
-                "w-[55px] h-[23px] transition-all duration-500 ease-in-out bg-transparent border-[2px] rounded-[20px] relative",
+                "top-[-3.5px] absolute transition-all duration-500 ease-in-out",
                 {
-                  "border-gray-500": mode === "light",
+                  "left-[1.5px]": mode === "light",
+                  "right-[3px]": mode === "dark",
                 }
               )}
             >
-              <div
-                className={classNames(
-                  "w-[15px] top-[1.3px] h-[15px] rounded-[50%] absolute transition-all duration-500 ease-in-out",
-                  {
-                    "left-[1px]": mode === "light",
-                    "bg-gray-500": mode === "light",
-                    "right-[2px]": mode === "dark",
-                    "bg-white": mode === "dark",
-                  }
-                )}
-              ></div>
+              {mode === "light" ? (
+                <i
+                  className={classNames("fa-solid", "fa-sun", {
+                    "text-orange-500": mode === "light",
+                  })}
+                ></i>
+              ) : (
+                <i
+                  className={classNames("fa-solid", "fa-moon", {
+                    "text-gray-500": mode === "dark",
+                  })}
+                ></i>
+              )}
             </div>
-          </label>
+          </div>
+        </label>
       </div>
       <div className="w-full md:hidden gap-2 max-w-[700px] font-[500] text-[17.5px] flex justify-end">
         <i
@@ -136,23 +149,36 @@ export const WelcomeHeader = () => {
           <label htmlFor="mode" onClick={handleMode}>
             <div
               className={classNames(
-                "w-[55px] h-[21px] transition-all duration-500 ease-in-out bg-transparent border-[2px] rounded-[20px] relative",
+                "w-[55px] h-[23px] transition-all duration-500 ease-in-out bg-transparent border-[2px] rounded-[20px] relative",
                 {
-                  "border-gray-500": mode === "light",
+                  "border-orange-500": mode === "light",
+                  "border-gray-500": mode === "dark",
                 }
               )}
             >
               <div
                 className={classNames(
-                  "w-[15px] top-[0.3px] h-[15px] rounded-[50%] absolute transition-all duration-500 ease-in-out",
+                  "top-[-3.5px] absolute transition-all duration-500 ease-in-out",
                   {
-                    "left-[1px]": mode === "light",
-                    "bg-gray-500": mode === "light",
-                    "right-[2px]": mode === "dark",
-                    "bg-white": mode === "dark",
+                    "left-[1.5px]": mode === "light",
+                    "right-[3px]": mode === "dark",
                   }
                 )}
-              ></div>
+              >
+                {mode === "light" ? (
+                  <i
+                    className={classNames("fa-solid", "fa-sun", {
+                      "text-orange-500": mode === "light",
+                    })}
+                  ></i>
+                ) : (
+                  <i
+                    className={classNames("fa-solid", "fa-moon", {
+                      "text-gray-500": mode === "dark",
+                    })}
+                  ></i>
+                )}
+              </div>
             </div>
           </label>
         </div>
