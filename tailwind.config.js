@@ -13,6 +13,14 @@ export default {
             transform: "translateY(0%)",
             opacity: 1,
           },
+          'box-opacity-animation': {
+            '0%': {
+              opacity: 0,
+            },
+            '100%': {
+              opacity: 1,
+            }
+          }
         },
       },
     },
