@@ -25,7 +25,7 @@ export const Contact = () => {
         </h2>
         <div
           className={classNames(
-            "w-full max-w-lg bg-white rounded-lg shadow-lg p-[20px] overflow-hidden",
+            "w-full max-w-lg rounded-lg shadow-lg p-[20px] overflow-hidden",
             {
               "bg-gray-900 text-white": mode === "dark",
             },
