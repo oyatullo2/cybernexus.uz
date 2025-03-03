@@ -13,14 +13,34 @@ export default {
             transform: "translateY(0%)",
             opacity: 1,
           },
-          'box-opacity-animation': {
-            '0%': {
-              opacity: 0,
-            },
-            '100%': {
-              opacity: 1,
-            }
-          }
+        },
+        "box-opacity-animation": {
+          "0%": {
+            opacity: 0,
+          },
+          "100%": {
+            opacity: 1,
+          },
+        },
+        "box-opacity-left-animation": {
+          "0%": {
+            opacity: 0,
+            transform: "translateX(-100%)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateX(0%)",
+          },
+        },
+        "box-opacity-right-animation": {
+          "0%": {
+            opacity: 0,
+            transform: "translateX(100%)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translateX(0%)",
+          },
         },
       },
     },
