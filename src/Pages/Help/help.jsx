@@ -37,7 +37,7 @@ export const Help = () => {
     >
       <div
         className={classNames(
-          "w-full max-w-md rounded-lg shadow-lg p-[20px]",
+          "w-full max-w-md rounded-lg border-[1px] shadow-lg p-[20px]",
           {
             "bg-gray-900 text-white": mode === "dark",
             "bg-white text-gray-800": mode === "light",
