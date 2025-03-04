@@ -25,7 +25,22 @@ export const Help = () => {
       const email = "izzatullayev008@gmail.com";
       const subject = encodeURIComponent("Xabar yuborish"); // Email sarlavhasi
       const mailtoLink = `mailto:${email}?subject=${subject}&body=${encodedMessage}`;
-      window.location.href = mailtoLink; // Email ilovasini ochish
+
+      // `mailto` havolasini sinash uchun konsolga chiqaramiz
+      console.log("Mailto havolasi:", mailtoLink);
+
+      try {
+        window.location.href = mailtoLink; // Email ilovasini ochishga urinish
+      } catch (error) {
+        // Agar `mailto` ishlamasa, foydalanuvchiga xabar beramiz
+        console.error("Email ochishda xatolik:", error);
+        alert(
+          "Email ilovasi ochilmadi. Iltimos, xabarni qo‘lda yuboring:\n" +
+            `Email: ${email}\n` +
+            `Sarlavha: Xabar yuborish\n` +
+            `Xabar: ${message}`
+        );
+      }
     }
   };
 
