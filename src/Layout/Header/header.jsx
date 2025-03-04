@@ -46,7 +46,7 @@ export const WelcomeHeader = () => {
 
   return (
     <div className="w-full gap-3 shadow-sm header-container px-[10px] py-[5px] items-center flex justify-between">
-      <div className="w-full">
+      <div className="w-full max-w-fit">
         <Link to={"/"}>
           <p
             className="font-[700] hover:shadow-none cursor-pointer max-w-fit text-[25px]"
