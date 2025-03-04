@@ -17,12 +17,12 @@ export const Help = () => {
   return (
     <div
       className={classNames(
-        "w-full mt-[-50px] px-[10px] flex flex-col items-center max-w-full h-screen justify-center"
+        "w-full mt-[-50px] px-[10px] flex flex-col items-center max-w-full h-screen overflow-hidden max-h-full overflow-y-scroll justify-center"
       )}
     >
       <div
         className={classNames(
-          "w-full max-w-md rounded-lg shadow-lg p-[20px]",
+          "w-full max-w-md rounded-lg shadow-lg border-[2px] p-[20px]",
           {
             "bg-gray-900 text-white": mode === "dark",
             "bg-white text-gray-800": mode === "light",
