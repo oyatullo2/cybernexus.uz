@@ -7,22 +7,37 @@ export const Help = () => {
   const { mode } = useContext(GlobalContext); // Dark/Light mode ni olish
   const [message, setMessage] = useState("");
 
-  const sendSMS = () => {
-    const phoneNumber = "+998935188508"; // Sizning raqamingiz
+  const sendMessage = () => {
+    // Qurilma turini aniqlash (telefon yoki kompyuter)
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+
     const encodedMessage = encodeURIComponent(message); // Xabarni kodlash
-    const smsLink = `sms:${phoneNumber}?body=${encodedMessage}`; // SMS havolasi
-    window.location.href = smsLink; // SMS ilovasini ochish
+
+    if (isMobile) {
+      // Telefonlarda SMS
+      const phoneNumber = "+998935188508"; // Sizning raqamingiz
+      const smsLink = `sms:${phoneNumber}?body=${encodedMessage}`;
+      window.location.href = smsLink; // SMS ilovasini ochish
+    } else {
+      // Kompyuterlarda Email
+      const email = "izzatullayev008@gmail.com";
+      const subject = encodeURIComponent("Xabar yuborish"); // Email sarlavhasi
+      const mailtoLink = `mailto:${email}?subject=${subject}&body=${encodedMessage}`;
+      window.location.href = mailtoLink; // Email ilovasini ochish
+    }
   };
 
   return (
     <div
       className={classNames(
-        "w-full mt-[-50px] px-[10px] flex flex-col items-center max-w-full h-screen overflow-hidden max-h-full overflow-y-scroll justify-center"
+        "w-full mt-[-50px] px-[10px] flex flex-col items-center max-w-full h-screen justify-center"
       )}
     >
       <div
         className={classNames(
-          "w-full max-w-md rounded-lg shadow-lg border-[2px] p-[20px]",
+          "w-full max-w-md rounded-lg shadow-lg p-[20px]",
           {
             "bg-gray-900 text-white": mode === "dark",
             "bg-white text-gray-800": mode === "light",
@@ -52,7 +67,7 @@ export const Help = () => {
           onChange={(e) => setMessage(e.target.value)}
         />
         <button
-          onClick={sendSMS}
+          onClick={sendMessage}
           className={classNames(
             "w-full py-3 mt-4 rounded-lg font-semibold focus:outline-none focus:ring-2 transition-all duration-300",
             {
@@ -63,7 +78,7 @@ export const Help = () => {
             }
           )}
         >
-          SMS yuborish
+          Xabar yuborish
         </button>
       </div>
     </div>
