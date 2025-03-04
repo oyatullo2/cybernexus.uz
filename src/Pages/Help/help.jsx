@@ -32,29 +32,32 @@ export const Help = () => {
   return (
     <div
       className={classNames(
-        "w-full mt-[-50px] px-[10px] flex flex-col items-center max-w-full h-screen justify-center"
+        "w-full px-4 sm:px-6 flex mt-[-50px] flex-col items-center max-w-full min-h-screen justify-center"
       )}
     >
       <div
         className={classNames(
-          "w-full max-w-md rounded-lg border-[1px] shadow-lg p-[20px]",
+          "w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl rounded-lg border-[1px] shadow-lg p-4 sm:p-6 md:p-8",
           {
-            "bg-gray-900 text-white": mode === "dark",
-            "bg-white text-gray-800": mode === "light",
+            "bg-gray-900 text-white border-gray-700": mode === "dark",
+            "bg-white text-gray-800 border-gray-200": mode === "light",
           }
         )}
       >
         <h2
-          className={classNames("text-3xl font-bold mb-8 text-center", {
-            "text-white": mode === "dark",
-            "text-[#f04a4f]": mode === "light",
-          })}
+          className={classNames(
+            "text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 md:mb-10 text-center",
+            {
+              "text-white": mode === "dark",
+              "text-[#f04a4f]": mode === "light",
+            }
+          )}
         >
           Xabar yuborish
         </h2>
         <textarea
           className={classNames(
-            "w-full h-32 p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 transition-all duration-300 placeholder-opacity-60",
+            "w-full h-28 sm:h-32 md:h-40 lg:h-48 p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 transition-all duration-300 placeholder-opacity-60",
             {
               "bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:ring-blue-500":
                 mode === "dark",
@@ -69,7 +72,7 @@ export const Help = () => {
         <button
           onClick={sendMessage}
           className={classNames(
-            "w-full py-3 mt-4 rounded-lg font-semibold focus:outline-none focus:ring-2 transition-all duration-300",
+            "w-full py-2 sm:py-3 md:py-4 mt-4 sm:mt-6 md:mt-8 rounded-lg font-semibold focus:outline-none focus:ring-2 transition-all duration-300",
             {
               "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-400":
                 mode === "dark",
