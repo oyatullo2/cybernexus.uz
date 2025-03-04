@@ -17,17 +17,12 @@ export const Help = () => {
   return (
     <div
       className={classNames(
-        "min-h-screen  mt-[-50px] flex items-center justify-center p-4 overflow-hidden",
-        {
-          "bg-gradient-to-br from-gray-800 via-gray-900 to-black": mode === "dark",
-          "bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100":
-            mode === "light",
-        }
+        "w-full mt-[-50px] px-[10px] flex flex-col items-center max-w-full h-screen justify-center"
       )}
     >
       <div
         className={classNames(
-          "w-full max-w-md rounded-xl shadow-lg p-6 flex flex-col gap-4",
+          "w-full max-w-md rounded-lg shadow-lg p-[20px]",
           {
             "bg-gray-900 text-white": mode === "dark",
             "bg-white text-gray-800": mode === "light",
@@ -35,7 +30,7 @@ export const Help = () => {
         )}
       >
         <h2
-          className={classNames("text-2xl font-bold text-center", {
+          className={classNames("text-3xl font-bold mb-8 text-center", {
             "text-white": mode === "dark",
             "text-[#f04a4f]": mode === "light",
           })}
@@ -59,7 +54,7 @@ export const Help = () => {
         <button
           onClick={sendSMS}
           className={classNames(
-            "w-full py-3 rounded-lg font-semibold focus:outline-none focus:ring-2 transition-all duration-300",
+            "w-full py-3 mt-4 rounded-lg font-semibold focus:outline-none focus:ring-2 transition-all duration-300",
             {
               "bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-400":
                 mode === "dark",
