@@ -47,7 +47,7 @@ export const Help = () => {
   return (
     <div
       className={classNames(
-        "w-full px-4 sm:px-6 flex mt-[-50px] flex-col items-center max-w-full min-h-screen justify-center"
+        "w-full px-4 sm:px-6 animate-[header-top-animation_1.5s_ease-in-out] flex mt-[-50px] flex-col items-center max-w-full min-h-screen justify-center"
       )}
     >
       <div
