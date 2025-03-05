@@ -6,6 +6,7 @@ import { News } from "./src/Pages/News/news";
 import { About } from "./src/Pages/About/about";
 import { Contact } from "./src/Pages/Contact/contact";
 import { Help } from "./src/Pages/Help/help";
+import { Error } from "./src/Pages/Error/error";
 
 export const Routers = () => {
   return (
@@ -18,6 +19,7 @@ export const Routers = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/help" element={<Help />} />
       </Route>
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 };
