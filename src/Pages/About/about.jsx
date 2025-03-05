@@ -9,6 +9,19 @@ export const About = () => {
   const popoverRef = useRef(null);
   const joinUsRef = useRef(null);
 
+  // Tekstlarni desktop va mobil uchun alohida saqlash
+  const desktopText1 = "Cyber Nexus, launched in 2025, is your go-to platform for cybersecurity news, apps, and Q&A. We aim to keep you safe in a fast-changing digital world.";
+  const mobileText1 = "Cyber Nexus, launched in 2025, is your cybersecurity platform for news, apps, and Q&A.";
+  
+  const desktopText2 = "Cybersecurity protects systems and data from attacks, teaching skills to spot risks and stop threats. Our expert team is here to share knowledge and strengthen online safety.";
+  const mobileText2 = "Cybersecurity protects systems and data, teaching risk detection. Our team shares knowledge for safety.";
+
+  const desktopText3 = "Cyber Nexus is a hub for learning and discussion. Ask questions, follow our updates, and join free webinars to boost your cybersecurity know-how!";
+  const mobileText3 = "Cyber Nexus is a hub for learning. Ask questions and join webinars to boost your skills!";
+
+  // Mobil holatni aniqlash
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -74,7 +87,7 @@ export const About = () => {
             }
           )}
         >
-          Cyber Nexus, launched in 2025, is your go-to platform for cybersecurity news, apps, and Q&A. We aim to keep you safe in a fast-changing digital world.
+          {isMobile ? mobileText1 : desktopText1}
         </p>
 
         <p
@@ -86,7 +99,7 @@ export const About = () => {
             }
           )}
         >
-          Cybersecurity protects systems and data from attacks, teaching skills to spot risks and stop threats. Our expert team is here to share knowledge and strengthen online safety.
+          {isMobile ? mobileText2 : desktopText2}
         </p>
 
         <div className="relative transition-all ease-in-out duration-500 popover-container">
@@ -168,7 +181,7 @@ export const About = () => {
             }
           )}
         >
-          Cyber Nexus is a hub for learning and discussion. Ask questions, follow our updates, and join free webinars to boost your cybersecurity know-how!
+          {isMobile ? mobileText3 : desktopText3}
         </p>
       </div>
 
