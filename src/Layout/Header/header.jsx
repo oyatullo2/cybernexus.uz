@@ -57,7 +57,7 @@ export const WelcomeHeader = () => {
                   : "-3px 3px 3.5px rgba(255, 255, 255, 0.35)",
             }}
           >
-            CyberNexus
+            CyberNexuss
           </p>
         </Link>
       </div>
