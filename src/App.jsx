@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Routers } from "../router";
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -16,6 +18,16 @@ function App() {
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+  // Sayt yangi ochilganda bir marta /captcha ga yo‘naltirish
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem("hasVisited");
+
+    if (window.location.pathname === "/" && !hasVisited) {
+      sessionStorage.setItem("hasVisited", "true"); // Bir marta kirgani belgilandi
+      navigate("/captcha");
+    }
+  }, [navigate]);
 
   return (
     <>
