@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import classNames from "classnames";
 import { useContext, useState, useEffect, useRef } from "react";
 import { GlobalContext } from "../../GlobalState/globalstate";
+import { useLocation } from "react-router-dom";
 
 export const WelcomeHeader = () => {
   const [open, setOpen] = useState(false);
   const { mode, setMode } = useContext(GlobalContext);
   const dropdownRef = useRef(null); // Reference to the dropdown div
   const menuButtonRef = useRef(null); // Reference to the hamburger icon
+  const location = useLocation();
 
   const handleOpen = (e) => {
     e.stopPropagation(); // Prevent event bubbling to document
@@ -45,7 +47,12 @@ export const WelcomeHeader = () => {
   }, [open]);
 
   return (
-    <div className="w-full gap-3 shadow-sm header-container px-[10px] py-[5px] items-center flex justify-between">
+    <div
+      style={{ display: location.pathname === "/captcha" ? "none" : "flex" }}
+      className={classNames(
+        "w-full gap-3 shadow-sm header-container px-[10px] py-[5px] items-center flex justify-between"
+      )}
+    >
       <div className="w-full max-w-fit">
         <Link to={"/"}>
           <p
