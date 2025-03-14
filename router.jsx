@@ -8,6 +8,7 @@ import { Contact } from "./src/Pages/Contact/contact";
 import { Help } from "./src/Pages/Help/help";
 import { Error } from "./src/Pages/Error/error";
 import CustomCaptcha from "./src/captcha";
+import FAQ from "./src/Pages/FAQ/faq";
 
 export const Routers = () => {
   return (
@@ -19,7 +20,8 @@ export const Routers = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/help" element={<Help />} />
-        <Route path="/captcha" element={<CustomCaptcha/>}/>
+        <Route path="/captcha" element={<CustomCaptcha />} />
+        <Route path="/faq" element={<FAQ />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>
