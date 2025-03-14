@@ -2,8 +2,11 @@ import { Outlet, Link } from "react-router-dom"; // Link qo'shildi
 import { WelcomeHeader } from "./Header";
 import { FaRobot } from "react-icons/fa"; // Bot uchun ikonka (agar rasm bo'lmasa)
 import { motion } from "framer-motion"; // Animatsiyalar uchun
+import classNames from "classnames";
+import { useLocation } from "react-router-dom";
 
 export const Layout = () => {
+  const location = useLocation();
   return (
     <>
       <div className="w-full flex flex-col overflow-y-hidden overflow-x-hidden">
@@ -13,7 +16,11 @@ export const Layout = () => {
         <div className="w-full overflow-y-scroll mt-[50px] h-full animate-[header-top-animation_1s_ease-in-out]">
           <Outlet />
         </div>
-        <div className="fixed bottom-5 right-5 z-20">
+        <div
+          className={classNames("fixed bottom-5 right-5 z-20", {
+            hidden: location.pathname === "/captcha",
+          })}
+        >
           <Link to="/faq">
             <motion.div
               className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 flex items-center justify-center shadow-lg cursor-pointer"
@@ -29,11 +36,16 @@ export const Layout = () => {
               }}
               transition={{
                 y: { repeat: Infinity, duration: 1.5, ease: "easeInOut" },
-                boxShadow: { repeat: Infinity, duration: 1.5, ease: "easeInOut" },
+                boxShadow: {
+                  repeat: Infinity,
+                  duration: 1.5,
+                  ease: "easeInOut",
+                },
               }}
             >
               {/* Bot rasmi yoki ikonka */}
-              <FaRobot className="text-white text-2xl" /> {/* Agar rasm bo'lmasa */}
+              <FaRobot className="text-white text-2xl" />{" "}
+              {/* Agar rasm bo'lmasa */}
               {/* Agar rasm bo'lsa, quyidagi tarzda qo'shing */}
               {/* <img src="/bot-image.png" alt="Bot" className="w-10 h-10 rounded-full" /> */}
             </motion.div>
