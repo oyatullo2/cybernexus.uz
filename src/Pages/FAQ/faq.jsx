@@ -290,7 +290,7 @@ const FAQ = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSendMessage(input)}
             placeholder="Savolingizni yozing..."
-            className="flex-1 p-2 sm:p-3 rounded-lg border-[1px] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 text-sm sm:text-base"
+            className="flex-1 p-2 sm:p-3 rounded-lg border-[1px] text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 text-sm sm:text-base"
           />
           <button
             onClick={() => handleSendMessage(input)}
