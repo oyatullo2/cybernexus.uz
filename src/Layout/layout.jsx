@@ -18,7 +18,8 @@ export const Layout = () => {
         </div>
         <div
           className={classNames("fixed bottom-5 right-5 z-20", {
-            hidden: location.pathname === "/captcha",
+            hidden:
+              location.pathname === "/captcha" || location.pathname === "/faq",
           })}
         >
           <Link to="/faq">
