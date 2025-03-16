@@ -23,7 +23,7 @@ function App() {
   useEffect(() => {
     const hasVisited = sessionStorage.getItem("hasVisited");
 
-    if (window.location.pathname === "/" && !hasVisited) {
+    if (window.location.pathname === "/faq" && !hasVisited) {
       sessionStorage.setItem("hasVisited", "true"); // Bir marta kirgani belgilandi
       navigate("/captcha");
     }

@@ -1,5 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+  useContext,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import classNames from "classnames";
+// import { useContext } from "react";
+import { GlobalContext } from "../../GlobalState/globalstate";
 import {
   FaBars,
   FaPlus,
@@ -41,6 +51,15 @@ import {
   FaCamera,
   FaGithub,
   FaYoutube,
+  FaSun,
+  FaMoon,
+  FaRobot,
+  FaHistory,
+  FaChartLine,
+  FaFileImage,
+  FaMicrophoneAlt,
+  FaWhatsapp,
+  FaEnvelope,
 } from "react-icons/fa";
 
 // Stikerlarni render qiluvchi funksiya
@@ -82,6 +101,7 @@ const getSticker = (type) => {
 };
 
 const ChatBot = () => {
+  const { mode, toggleMode } = useContext(GlobalContext);
   const [messages, setMessages] = useState(() => {
     const saved = localStorage.getItem("currentChat");
     return saved
@@ -123,7 +143,11 @@ const ChatBot = () => {
   const [touchStart, setTouchStart] = useState(null);
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [suggestions, setSuggestions] = useState([]);
   const messagesEndRef = useRef(null);
+
+  // Memoization
+  const memoizedMessages = useMemo(() => messages, [messages]);
 
   useEffect(() => {
     localStorage.setItem("currentChat", JSON.stringify(messages));
@@ -150,6 +174,81 @@ const ChatBot = () => {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const correctTypo = (input) => {
+    const corrections = {
+      slaom: "salom",
+      slm: "salom",
+      rhamat: "rahmat",
+      rakhmat: "rahmat",
+      qidrimok: "qidirmoq",
+      izal: "izla",
+      qidir: "qidirmoq",
+      top: "qidirmoq",
+      trajima: "tarjima",
+      translate: "tarjima",
+      obhavo: "ob-havo",
+      havo: "ob-havo",
+      vaq: "vaqt",
+      soa: "soat",
+      kod: "kod yoz",
+      dastur: "kod yoz",
+      maslaht: "maslahat",
+      music: "musiqa",
+      retsept: "retsept",
+      kitop: "kitob",
+      book: "kitob",
+      time: "vaqt",
+    };
+    const words = input
+      .toLowerCase()
+      .split(/\s+/)
+      .map((word) => corrections[word] || word);
+    return words.join(" ");
+  };
+
+  // Takliflar generatsiyasi
+  const generateSuggestions = (input, aiResponses) => {
+    const normalized = correctTypo(input).toLowerCase().trim();
+    if (!normalized) return [];
+
+    const baseSuggestions = [
+      "Hozirgi vaqtni ko‘rsat",
+      "Toshkentda ob-havo qanday?",
+      "Salom inglizchaga tarjima qil",
+      "5 + 3 ni hisobla",
+      "HTML kod yoz",
+      "Maslahat ber",
+      "Musiqa tavsiya qil",
+      "Palov retsepti",
+      "Kitob tavsiya qil",
+      "Internetdan qidirmoq",
+    ];
+
+    const filteredSuggestions = baseSuggestions
+      .filter(
+        (s) =>
+          s.toLowerCase().includes(normalized) &&
+          aiResponses.some((r) => r.trigger.test(s.toLowerCase()))
+      )
+      .slice(0, 3);
+
+    return filteredSuggestions.length > 0
+      ? filteredSuggestions
+      : baseSuggestions
+          .filter((s) =>
+            aiResponses.some((r) => r.trigger.test(s.toLowerCase()))
+          )
+          .slice(0, 3);
+  };
+
+  // State va event handlerlar (React ichida ishlatish uchun)
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInput(value);
+    setSuggestions(value.trim() ? generateSuggestions(value, aiResponses) : []);
   };
 
   const typeMessage = async (text, stickerType, isSocialMedia = false) => {
@@ -193,10 +292,9 @@ const ChatBot = () => {
           }
           return newMessages;
         });
-        await new Promise((resolve) => setTimeout(resolve, 50)); // Har bir symbol 50ms da paydo bo‘ladi
+        await new Promise((resolve) => setTimeout(resolve, 50));
       }
 
-      // Animatsiya tugagach final holatga o‘tkazamiz
       setMessages((prev) => {
         const newMessages = [...prev];
         newMessages[newMessages.length - 1] = {
@@ -211,10 +309,9 @@ const ChatBot = () => {
     }
   };
 
-  const handleSend = async () => {
+  const handleSend = useCallback(async () => {
     if (!input.trim()) return;
 
-    // Yangi foydalanuvchi xabari
     const userMessage = {
       text: input,
       sender: "user",
@@ -224,7 +321,6 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, userMessage]);
     setContext((prev) => [...prev, input]);
 
-    // Foydalanuvchi ma'lumotlarini saqlash
     if (input.toLowerCase().includes("ismim")) {
       const name = input.split("ismim ")[1] || input.split("my name is ")[1];
       if (name) setUserMemory((prev) => ({ ...prev, name }));
@@ -246,24 +342,33 @@ const ChatBot = () => {
 
     setInput("");
 
-    // Bot javobini olish va typingni boshlash
     const response = await getAIResponse(input);
     await typeMessage(response.text, response.sticker, response.isSocialMedia);
     setContext((prev) => [...prev, response.text]);
+  }, [input, context]);
+
+  const analyzeContext = (newInput) => {
+    const keywords = newInput.toLowerCase().split(" ");
+    const lastContext = context[context.length - 1] || "";
+    return {
+      isContinuation: lastContext.includes("Yana malumot beraymi?"),
+      keywords,
+      lastTopic: lastContext.split(" ").slice(-2).join(" "),
+    };
   };
 
   const getAIResponse = async (message) => {
     const normalizedMsg = message.toLowerCase().trim();
+    const { isContinuation, keywords, lastTopic } =
+      analyzeContext(normalizedMsg);
     let response = "";
     let sticker = "";
     let isSocialMedia = false;
 
-    const lastAIResponse =
-      context.length > 0 ? context[context.length - 1] : "";
     const isYesResponse = ["ha", "yes", "xa", "haaa"].includes(normalizedMsg);
 
-    if (isYesResponse && lastAIResponse.includes("Yana malumot beraymi?")) {
-      if (lastAIResponse.includes("musiqa")) {
+    if (isContinuation && isYesResponse) {
+      if (lastTopic.includes("musiqa")) {
         const songs = [
           'Xursand kayfiyat uchun: Coldplay - "Viva La Vida". 🎶',
           'Romantik muhit uchun: Adele - "Someone Like You". 💕',
@@ -273,7 +378,7 @@ const ChatBot = () => {
         const randomSong = songs[Math.floor(Math.random() * songs.length)];
         response = `🎵 **Yana musiqa tavsiyasi:** ${randomSong}\nYana malumot beraymi? (Ha/Yo‘q)`;
         sticker = "music";
-      } else if (lastAIResponse.includes("shou")) {
+      } else if (lastTopic.includes("shou")) {
         const shows = [
           'Bugun kechqurun: "O‘zbekiston Idol" - O‘zbekiston TV, soat 20:00. 🎤',
           'Komediya shou: "KVN Uzbekistan" - YouTube’da mavjud. 😂',
@@ -282,8 +387,8 @@ const ChatBot = () => {
         ];
         const randomShow = shows[Math.floor(Math.random() * shows.length)];
         response = `📺 **Yana shou haqida:** ${randomShow}\nYana malumot beraymi? (Ha/Yo‘q)`;
-        sticker = "music"; // Shu yerda mos stiker yo‘q, lekin musiqa bilan bir xil stikerdan foydalanamiz
-      } else if (lastAIResponse.includes("retsept")) {
+        sticker = "music";
+      } else if (lastTopic.includes("retsept")) {
         const recipes = [
           "**Osh retsepti:** 1 kg guruch, 400 g go‘sht, 200 g sabzi, 2 piyoz, 80 ml yog‘. Qovurib, 50 daqiqa pishiring. 🍲",
           "**Lag‘mon retsepti:** 300 g go‘sht, 2 karam, 1 piyoz, 200 g noodle, 40 daqiqa pishiring. 🍜",
@@ -294,7 +399,7 @@ const ChatBot = () => {
           recipes[Math.floor(Math.random() * recipes.length)];
         response = `🍴 **Yana retsept:** ${randomRecipe}\nYana malumot beraymi? (Ha/Yo‘q)`;
         sticker = "recipe";
-      } else if (lastAIResponse.includes("kitob")) {
+      } else if (lastTopic.includes("kitob")) {
         const books = [
           '"Sherlock Holmes" (Arthur Conan Doyle) - detektiv janri. 📘',
           '"Dunyoning eng buyuk hikoyalari" (O‘zbek adabiyoti to‘plami). 📙',
@@ -678,7 +783,7 @@ const ChatBot = () => {
         ];
         const randomShow = shows[Math.floor(Math.random() * shows.length)];
         response = `📺 **Shou haqida:** ${randomShow}\nYana malumot beraymi? (Ha/Yo‘q)`;
-        sticker = "music"; // Shu yerda mos stiker yo‘q, lekin musiqa bilan bir xil stikerdan foydalanamiz
+        sticker = "music";
       } else {
         const songs = [
           'Xursand kayfiyat uchun: Dua Lipa - "Levitating". 🎶',
@@ -1014,29 +1119,76 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="min-h-screen mt-[-50px] flex items-center justify-center p-2 overflow-hidden">
-      <div className="w-full max-w-5xl h-[75vh] sm:h-[80vh] flex flex-col rounded-3xl bg-gray-50/90 border border-gray-100 overflow-hidden">
+    <div
+      className={classNames(
+        "min-h-screen mt-[-70px] sm:mt-[-50px] flex items-center justify-center p-2 overflow-hidden",
+        {
+          "bg-background-light": mode === "light",
+          "bg-background-dark": mode === "dark",
+        }
+      )}
+    >
+      <div
+        className={classNames(
+          "w-full max-w-5xl h-[75vh] sm:h-[80vh] flex flex-col rounded-3xl border overflow-hidden",
+          {
+            "bg-white border-gray-200": mode === "light",
+            "bg-gray-900 border-gray-700": mode === "dark",
+          }
+        )}
+      >
         {/* Header */}
-        <div className="flex justify-between items-center p-4  border-b border-gray-100 rounded-t-3xl">
+        <div
+          className={classNames(
+            "flex justify-between items-center p-4 border-b rounded-t-3xl",
+            {
+              "border-gray-200": mode === "light",
+              "border-gray-700": mode === "dark",
+            }
+          )}
+        >
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowHistory(!showHistory)}
-              className="lg:hidden text-xl text-gray-500 hover:text-gray-700"
+              className={classNames("lg:hidden text-xl", {
+                "text-gray-500 hover:text-gray-700": mode === "light",
+                "text-gray-300 hover:text-gray-100": mode === "dark",
+              })}
             >
               <FaBars />
             </button>
-            <h1 className="text-lg font-medium">CyberNexus AI</h1>
+            <h1
+              className={classNames("text-lg font-medium", {
+                "text-gray-800": mode === "light",
+                "text-gray-100": mode === "dark",
+              })}
+            >
+              CyberNexus AI
+            </h1>
           </div>
           <div className="flex gap-3">
             <button
+              onClick={toggleMode}
+              className={classNames("text-xl", {
+                "text-gray-500 hover:text-gray-700": mode === "light",
+                "text-gray-300 hover:text-gray-100": mode === "dark",
+              })}
+            ></button>
+            <button
               onClick={handleSearch}
-              className="text-xl text-gray-500 hover:text-gray-700"
+              className={classNames("text-xl", {
+                "text-gray-500 hover:text-gray-700": mode === "light",
+                "text-gray-300 hover:text-gray-100": mode === "dark",
+              })}
             >
               <FaSearch />
             </button>
             <button
               onClick={startNewChat}
-              className="text-xl text-gray-500 hover:text-gray-700"
+              className={classNames("text-xl", {
+                "text-gray-500 hover:text-gray-700": mode === "light",
+                "text-gray-300 hover:text-gray-100": mode === "dark",
+              })}
             >
               <FaPlus />
             </button>
@@ -1046,10 +1198,20 @@ const ChatBot = () => {
         {/* Main Content */}
         <div className="flex flex-1 overflow-hidden">
           {/* Chat History (Desktop) */}
-          <div className="hidden lg:block w-1/3  border-r border-gray-100">
+          <div
+            className={classNames("hidden lg:block w-1/3 border-r", {
+              "border-gray-200": mode === "light",
+              "border-gray-700": mode === "dark",
+            })}
+          >
             <div className="p-4 h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-white">
               <div className="flex justify-between items-center mb-3">
-                <h2 className="text-base font-medium text-gray-900">
+                <h2
+                  className={classNames("text-base font-medium", {
+                    "text-gray-900": mode === "light",
+                    "text-gray-100": mode === "dark",
+                  })}
+                >
                   Chat Tarixi
                 </h2>
                 {selectedChats.length > 0 && (
@@ -1062,7 +1224,14 @@ const ChatBot = () => {
                 )}
               </div>
               {chatHistory.length === 0 ? (
-                <p className="text-gray-500 text-sm">Hozircha chatlar yo‘q</p>
+                <p
+                  className={classNames("text-sm", {
+                    "text-gray-500": mode === "light",
+                    "text-gray-400": mode === "dark",
+                  })}
+                >
+                  Hozircha chatlar yo‘q
+                </p>
               ) : (
                 chatHistory
                   .slice()
@@ -1072,25 +1241,39 @@ const ChatBot = () => {
                       key={chat.id}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`p-3 mb-1 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300 ${
-                        selectedChats.includes(chat.id)
-                          ? "bg-blue-50 border border-blue-100"
-                          : ""
-                      } ${
-                        chat.id === currentChatId
-                          ? "border-l-4 border-blue-500 bg-blue-50"
-                          : ""
-                      }`}
+                      className={classNames(
+                        "p-3 mb-1 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300",
+                        {
+                          "bg-blue-50 border border-blue-100":
+                            selectedChats.includes(chat.id),
+                          "border-l-4 border-blue-500 bg-blue-50":
+                            chat.id === currentChatId,
+                        },
+                        {
+                          "hover:bg-gray-50": mode === "light",
+                          "hover:bg-gray-800": mode === "dark",
+                        }
+                      )}
                       onClick={() => setMessages(chat.messages || [])}
                       onTouchStart={() => handleTouchStart(chat.id)}
                       onTouchEnd={handleTouchEnd}
                       onContextMenu={(e) => handleContextMenu(chat.id, e)}
                     >
-                      <span className="text-gray-700 font-medium text-sm">
+                      <span
+                        className={classNames("text-sm font-medium", {
+                          "text-gray-700": mode === "light",
+                          "text-gray-300": mode === "dark",
+                        })}
+                      >
                         {chatHistory.length - index}. Chat #{chat.id}
                       </span>{" "}
                       -
-                      <span className="text-gray-500 text-xs">
+                      <span
+                        className={classNames("text-xs", {
+                          "text-gray-500": mode === "light",
+                          "text-gray-400": mode === "dark",
+                        })}
+                      >
                         {" "}
                         {chat.messages && chat.messages.length > 0
                           ? chat.messages[0].text.slice(0, 20)
@@ -1107,7 +1290,7 @@ const ChatBot = () => {
           <div className="flex-1 flex flex-col">
             <div className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-white">
               <AnimatePresence>
-                {messages.map((msg, index) => (
+                {memoizedMessages.map((msg, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
@@ -1119,11 +1302,17 @@ const ChatBot = () => {
                     } mb-3`}
                   >
                     <div
-                      className={`max-w-[80%]  p-3 rounded-2xl ${
-                        msg.sender === "user"
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-200 text-gray-800"
-                      } ${!msg.final ? "animate-pulse" : ""}`}
+                      className={classNames(
+                        "max-w-[80%] p-3 rounded-2xl",
+                        {
+                          "bg-blue-500 text-white": msg.sender === "user",
+                          "bg-gray-200 text-gray-800":
+                            msg.sender !== "user" && mode === "light",
+                          "bg-gray-700 text-gray-100":
+                            msg.sender !== "user" && mode === "dark",
+                        },
+                        { "animate-pulse": !msg.final }
+                      )}
                     >
                       <div
                         className="text-sm leading-relaxed break-words"
@@ -1139,7 +1328,12 @@ const ChatBot = () => {
                           {getSticker(msg.sticker)}
                         </motion.span>
                       )}
-                      <div className="text-xs opacity-60 mt-1">
+                      <div
+                        className={classNames("text-xs opacity-60 mt-1", {
+                          "text-gray-300": mode === "dark",
+                          "text-gray-600": mode === "light",
+                        })}
+                      >
                         {new Date(msg.time).toLocaleTimeString("uz-UZ")}
                       </div>
                     </div>
@@ -1150,7 +1344,12 @@ const ChatBot = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 border-t border-gray-100">
+            <div
+              className={classNames("p-4 border-t", {
+                "border-gray-200": mode === "light",
+                "border-gray-700": mode === "dark",
+              })}
+            >
               <div className="flex items-center gap-1 sm:gap-4">
                 <input
                   type="text"
@@ -1160,7 +1359,15 @@ const ChatBot = () => {
                     e.key === "Enter" &&
                     (selectedPlatform ? handleSearchSubmit() : handleSend())
                   }
-                  className="flex-1 p-3 rounded-full  text-gray-800 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 placeholder-gray-400 text-sm"
+                  className={classNames(
+                    "flex-1 p-3 rounded-full border focus:outline-none focus:ring-1 text-sm",
+                    {
+                      "bg-white border-gray-200 text-gray-800 focus:ring-gray-300 placeholder-gray-400":
+                        mode === "light",
+                      "bg-gray-800 border-gray-600 text-gray-100 focus:ring-gray-500 placeholder-gray-500":
+                        mode === "dark",
+                    }
+                  )}
                   placeholder={
                     selectedPlatform
                       ? `Qidirish uchun "${selectedPlatform}" so‘rovini kiriting...`
@@ -1169,22 +1376,44 @@ const ChatBot = () => {
                 />
                 <button
                   onClick={selectedPlatform ? handleSearchSubmit : handleSend}
-                  className={`p-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300 ${
-                    input.trim()
-                      ? "opacity-100"
-                      : "opacity-50 cursor-not-allowed"
-                  }`}
+                  className={classNames(
+                    "p-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-all duration-300",
+                    {
+                      "opacity-50 cursor-not-allowed": !input.trim(),
+                    }
+                  )}
                   disabled={!input.trim()}
                 >
                   <FaPaperPlane className="text-sm" />
                 </button>
+                {suggestions.length > 0 && (
+                  <div className="mb-3 flex gap-2 flex-wrap">
+                    {suggestions.map((suggestion, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setInput(suggestion)}
+                        className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800 hover:bg-blue-200"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer Buttons */}
-        <div className="flex justify-around p-4 border-t border-gray-100 rounded-b-3xl">
+        <div
+          className={classNames(
+            "flex justify-around p-4 border-t rounded-b-3xl",
+            {
+              "border-gray-200": mode === "light",
+              "border-gray-700": mode === "dark",
+            }
+          )}
+        >
           {[
             {
               icon: FaNewspaper,
@@ -1214,7 +1443,10 @@ const ChatBot = () => {
             <a
               key={index}
               href={`https://cybernexus.uz${item.link}`}
-              className="flex flex-col items-center text-gray-500 hover:text-blue-500"
+              className={classNames("flex flex-col items-center", {
+                "text-gray-500 hover:text-blue-500": mode === "light",
+                "text-gray-300 hover:text-blue-400": mode === "dark",
+              })}
               title={item.desc}
             >
               <item.icon className="text-lg" />
@@ -1231,10 +1463,21 @@ const ChatBot = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="w-11/12 max-h-[70vh] p-4 rounded-2xl bg-white shadow-xl overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-white"
+            className={classNames(
+              "w-11/12 max-h-[70vh] p-4 rounded-2xl shadow-xl overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-white",
+              {
+                "bg-white": mode === "light",
+                "bg-gray-900": mode === "dark",
+              }
+            )}
           >
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-base font-medium text-gray-900">
+              <h2
+                className={classNames("text-base font-medium", {
+                  "text-gray-900": mode === "light",
+                  "text-gray-100": mode === "dark",
+                })}
+              >
                 Chat Tarixi
               </h2>
               {selectedChats.length > 0 && (
@@ -1247,7 +1490,14 @@ const ChatBot = () => {
               )}
             </div>
             {chatHistory.length === 0 ? (
-              <p className="text-gray-500 text-sm">Hozircha chatlar yo‘q</p>
+              <p
+                className={classNames("text-sm", {
+                  "text-gray-500": mode === "light",
+                  "text-gray-400": mode === "dark",
+                })}
+              >
+                Hozircha chatlar yo‘q
+              </p>
             ) : (
               chatHistory
                 .slice()
@@ -1257,15 +1507,17 @@ const ChatBot = () => {
                     key={chat.id}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className={`p-3 mb-1 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300 ${
-                      selectedChats.includes(chat.id)
-                        ? "bg-blue-50 border border-blue-100"
-                        : ""
-                    } ${
-                      chat.id === currentChatId
-                        ? "border-l-4 border-blue-500 bg-blue-50"
-                        : ""
-                    }`}
+                    className={classNames(
+                      "p-3 mb-1 rounded-lg hover:bg-gray-50 cursor-pointer transition-all duration-300",
+                      {
+                        "bg-blue-50 border border-blue-100":
+                          selectedChats.includes(chat.id),
+                        "border-l-4 border-blue-500 bg-blue-50":
+                          chat.id === currentChatId,
+                        "hover:bg-gray-50": mode === "light",
+                        "hover:bg-gray-800": mode === "dark",
+                      }
+                    )}
                     onClick={() => {
                       setMessages(chat.messages || []);
                       setShowHistory(false);
@@ -1273,11 +1525,21 @@ const ChatBot = () => {
                     onTouchStart={() => handleTouchStart(chat.id)}
                     onTouchEnd={handleTouchEnd}
                   >
-                    <span className="text-gray-700 font-medium text-sm">
+                    <span
+                      className={classNames("text-sm font-medium", {
+                        "text-gray-700": mode === "light",
+                        "text-gray-300": mode === "dark",
+                      })}
+                    >
                       {chatHistory.length - index}. Chat #{chat.id}
                     </span>{" "}
                     -
-                    <span className="text-gray-500 text-xs">
+                    <span
+                      className={classNames("text-xs", {
+                        "text-gray-500": mode === "light",
+                        "text-gray-400": mode === "dark",
+                      })}
+                    >
                       {" "}
                       {chat.messages && chat.messages.length > 0
                         ? chat.messages[0].text.slice(0, 20)
@@ -1289,7 +1551,13 @@ const ChatBot = () => {
             )}
             <button
               onClick={() => setShowHistory(false)}
-              className="mt-3 w-full p-3 rounded-full bg-blue-500 text-white hover:bg-blue-600 text-sm"
+              className={classNames(
+                "mt-3 w-full p-3 rounded-full text-white text-sm",
+                {
+                  "bg-blue-500 hover:bg-blue-600": mode === "light",
+                  "bg-blue-600 hover:bg-blue-700": mode === "dark",
+                }
+              )}
             >
               Yopish
             </button>
@@ -1304,9 +1572,20 @@ const ChatBot = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="w-11/12 max-w-sm p-4 rounded-2xl bg-white shadow-xl"
+            className={classNames(
+              "w-11/12 max-w-sm p-4 rounded-2xl shadow-xl",
+              {
+                "bg-white": mode === "light",
+                "bg-gray-900": mode === "dark",
+              }
+            )}
           >
-            <h2 className="text-base font-medium text-gray-900 mb-3">
+            <h2
+              className={classNames("text-base font-medium mb-3", {
+                "text-gray-900": mode === "light",
+                "text-gray-100": mode === "dark",
+              })}
+            >
               Qayerdan qidirmoqchisiz?
             </h2>
             <div className="grid grid-cols-3 gap-3">
@@ -1345,7 +1624,10 @@ const ChatBot = () => {
                 <button
                   key={index}
                   onClick={() => handlePlatformSelect(item.platform)}
-                  className={`p-3 rounded-lg ${item.color} text-white flex flex-col items-center justify-center hover:opacity-90`}
+                  className={classNames(
+                    "p-3 rounded-lg text-white flex flex-col items-center justify-center hover:opacity-90",
+                    item.color
+                  )}
                 >
                   {item.icon}
                   <span className="text-xs mt-1">{item.name}</span>
@@ -1354,7 +1636,13 @@ const ChatBot = () => {
             </div>
             <button
               onClick={() => setShowSearchModal(false)}
-              className="mt-4 w-full p-3 rounded-full bg-gray-500 text-white hover:bg-gray-600 text-sm"
+              className={classNames(
+                "mt-4 w-full p-3 rounded-full text-white text-sm",
+                {
+                  "bg-gray-500 hover:bg-gray-600": mode === "light",
+                  "bg-gray-600 hover:bg-gray-700": mode === "dark",
+                }
+              )}
             >
               Bekor qilish
             </button>
