@@ -3,16 +3,21 @@ import classNames from "classnames";
 import { useContext, useState, useEffect, useRef } from "react";
 import { GlobalContext } from "../../GlobalState/globalstate";
 import { useLocation } from "react-router-dom";
-import ReactPlayer from "react-player"; // ReactPlayer import qilingan
+import ReactPlayer from "react-player";
 
 export const WelcomeHeader = () => {
   const [open, setOpen] = useState(false);
   const [storyOpen, setStoryOpen] = useState(false);
+  const [isVideoWatched, setIsVideoWatched] = useState(
+    localStorage.getItem("isVideoWatched") === "true" // localStorage dan o‘qish
+  );
+  const [currentTime, setCurrentTime] = useState(0);
   const { mode, setMode } = useContext(GlobalContext);
   const dropdownRef = useRef(null);
   const menuButtonRef = useRef(null);
   const location = useLocation();
   const storyRef = useRef(null);
+  const playerRef = useRef(null);
 
   const handleOpen = (e) => {
     e.stopPropagation();
@@ -21,6 +26,49 @@ export const WelcomeHeader = () => {
 
   const handleMode = () => {
     setMode(mode === "light" ? "dark" : "light");
+  };
+
+  // Mobil uchun touch handlerlar
+  const handleTouchStart = () => {
+    if (playerRef.current) {
+      playerRef.current.getInternalPlayer().pause();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (playerRef.current) {
+      playerRef.current.getInternalPlayer().play();
+    }
+  };
+
+  // Kompyuter uchun klaviatura handlerlar
+  const handleKeyDown = (e) => {
+    if (e.key === " " && playerRef.current) {
+      e.preventDefault();
+      playerRef.current.getInternalPlayer().pause();
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.key === " " && playerRef.current) {
+      playerRef.current.getInternalPlayer().play();
+    }
+  };
+
+  // Video progressini yangilash va ko‘rilganligini belgilash
+  const handleProgress = (state) => {
+    setCurrentTime(Math.floor(state.playedSeconds));
+    if (state.playedSeconds >= 1 && !isVideoWatched) {
+      setIsVideoWatched(true);
+      localStorage.setItem("isVideoWatched", "true"); // localStorage ga saqlash
+    }
+  };
+
+  // Video tayyor bo‘lganda ijro etishni ta’minlash
+  const handleReady = () => {
+    if (playerRef.current && !isVideoWatched) {
+      playerRef.current.getInternalPlayer().play();
+    }
   };
 
   useEffect(() => {
@@ -44,13 +92,19 @@ export const WelcomeHeader = () => {
 
     if (storyOpen) {
       document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("keyup", handleKeyUp);
     } else {
       document.body.style.overflow = "auto";
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
       document.body.style.overflow = "auto";
     };
   }, [open, storyOpen]);
@@ -77,7 +131,13 @@ export const WelcomeHeader = () => {
           </p>
         </Link>
         <div
-          className="w-12 h-12 rounded-full border-4 border-blue-400 flex items-center justify-center cursor-pointer relative"
+          className={classNames(
+            "w-12 h-12 rounded-full border-4 flex items-center justify-center cursor-pointer relative transition-all duration-300",
+            {
+              "border-blue-400": !isVideoWatched,
+              "border-transparent": isVideoWatched,
+            }
+          )}
           onClick={() => setStoryOpen(true)}
         >
           <img
@@ -85,7 +145,7 @@ export const WelcomeHeader = () => {
             alt="Story Thumbnail"
             className="w-10 h-10 rounded-full object-cover"
           />
-          <span className="absolute bottom-[0px] right-[0.5px] bg-blue-500 text-white text-xs font-bold px-1 py-0.25 rounded-full">
+          <span className="absolute bottom-[1.2px] right-[4px] bg-blue-500 text-white text-xs font-bold px-1 py-0.25 rounded-full">
             ✓
           </span>
         </div>
@@ -222,20 +282,30 @@ export const WelcomeHeader = () => {
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div
             ref={storyRef}
-            className="relative w-[90%] md:w-[40%] rounded-lg overflow-hidden"
+            className="relative w-[90%] md:w-[40%] rounded-xl overflow-hidden shadow-2xl"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
-            <button
-              className="absolute top-2 right-2 text-white text-2xl z-50"
-              onClick={() => setStoryOpen(false)}
-            >
-              ×
-            </button>
+            <div className="absolute top-2 right-2 flex items-center gap-2 z-50">
+              <span className="text-white text-sm bg-gray-800 rounded-full px-2 py-1">
+                {currentTime}s
+              </span>
+              <button
+                className="text-white text-2xl bg-gray-800 hover:bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center transition-all duration-300"
+                onClick={() => setStoryOpen(false)}
+              >
+                ×
+              </button>
+            </div>
             <ReactPlayer
+              ref={playerRef}
               url="/hackathon.mp4"
-              playing
-              controls
+              playing autoplay // Ko‘rilmagan bo‘lsa avto-play
+              controls={false}
               width="100%"
               height="auto"
+              onProgress={handleProgress}
+              onReady={handleReady} // Video tayyor bo‘lganda ijro etish
               onEnded={() => setStoryOpen(false)}
             />
           </div>
