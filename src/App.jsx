@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Routers } from "../router";
+import { messaging, getToken, onMessage } from "./firebase";
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -28,6 +29,41 @@ function App() {
       navigate("/captcha");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    // Notifikatsiya ruxsatini so‘rash
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notifikatsiyalarga ruxsat berildi.");
+        // Token olish
+        getToken(messaging, {
+          vapidKey:
+            "BL71Alvt3J8il1MbVB02TublVOqsPiv4xx0Ledc_zLOWt383di9gRSQyjePpTYomh71PLYPICjmbTE5meoq9Oas",
+        })
+          .then((currentToken) => {
+            if (currentToken) {
+              // Token’ni keyinroq ishlatish uchun saqlang
+            } else {
+              console.log("Token olinmadi.");
+            }
+          })
+          .catch((err) => {
+            console.error("Token olishda xato:", err);
+          });
+      } else {
+        console.log("Notifikatsiyalarga ruxsat berilmadi.");
+      }
+    });
+
+    // Foreground notifikatsiyalarni qabul qilish
+    onMessage(messaging, (payload) => {
+      console.log("Foreground xabar:", payload);
+      new Notification(payload.notification.title, {
+        body: payload.notification.body,
+        icon: "/icon.png",
+      });
+    });
+  }, []);
 
   return (
     <>
