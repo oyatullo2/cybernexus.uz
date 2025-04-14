@@ -87,7 +87,7 @@ export const Cyberflow = () => {
     <>
       <p
         className={classNames(
-          "fixed w-full mt-[-5px] font-[600] text-[18px] z-[1] animate-[fadeIn_1s_ease] text-center py-[5px] sm:py-[8px]",
+          "fixed w-full font-[600] mt-[8px] text-[18px] z-[1] animate-[fadeIn_1s_ease] text-center py-[5px] sm:py-[8px]",
           {
             "bg-white border-gray-200": mode === "light",
             "bg-gray-900 border-gray-700": mode === "dark",
@@ -96,7 +96,7 @@ export const Cyberflow = () => {
       >
         Cyber Nexus News
       </p>
-      <div className="flex mt-[20px] sm:mt-[25px] flex-col gap-6 animate-[fadeIn_1s_ease] p-4 max-w-4xl mx-auto">
+      <div className="flex mt-[35px] sm:mt-[40px] flex-col gap-6 animate-[fadeIn_1s_ease] p-4 max-w-4xl mx-auto">
         {shuffledPosts.map((post, index) => (
           <div
             key={index}

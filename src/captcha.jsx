@@ -36,7 +36,7 @@ function CustomCaptcha({ mode }) {
         setIsVerified(true);
         console.log("Inson tasdiqlandi!");
         setTimeout(() => {
-          navigate("/"); // Root ga qaytish
+          navigate("/faq"); // Root ga qaytish
         }, 1000);
       } else {
         generateCaptcha();
