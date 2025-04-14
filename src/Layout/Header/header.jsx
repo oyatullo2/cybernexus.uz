@@ -84,6 +84,9 @@ export const WelcomeHeader = () => {
         <Link to={"/help"}>
           <p className="cursor-pointer">Help</p>
         </Link>
+        <Link to={"/cyberflow"}>
+            <p className="cursor-pointer">Cyberflow</p>
+          </Link>
         <label htmlFor="mode" onClick={handleMode}>
           <div
             className={classNames(
@@ -96,7 +99,7 @@ export const WelcomeHeader = () => {
           >
             <div
               className={classNames(
-                "top-[-3.5px] absolute transition-all duration-500 ease-in-out",
+                "top-[-2.25px] absolute transition-all duration-500 ease-in-out",
                 {
                   "left-[1.5px]": mode === "light",
                   "right-[3px]": mode === "dark",
@@ -131,7 +134,7 @@ export const WelcomeHeader = () => {
           className={classNames(
             "absolute rounded-bl-xl gap-2 pb-[7px] transition-all duration-700 ease-in-out w-full right-0 max-w-[100px] flex flex-col items-center",
             {
-              "top-[-200px]": !open,
+              "top-[-250px]": !open,
               "top-[45px]": open,
               "bg-gray-200": mode === "light",
               "bg-[#0F0E0E]": mode === "dark",
@@ -153,6 +156,9 @@ export const WelcomeHeader = () => {
           <Link to={"/help"}>
             <p className="cursor-pointer">Help</p>
           </Link>
+          <Link to={"/cyberflow"}>
+            <p className="cursor-pointer">Cyberflow</p>
+          </Link>
           <label htmlFor="mode" onClick={handleMode}>
             <div
               className={classNames(
@@ -165,7 +171,7 @@ export const WelcomeHeader = () => {
             >
               <div
                 className={classNames(
-                  "top-[-3.5px] absolute transition-all duration-500 ease-in-out",
+                  "top-[-2.0px] absolute transition-all duration-500 ease-in-out",
                   {
                     "left-[1.5px]": mode === "light",
                     "right-[3px]": mode === "dark",

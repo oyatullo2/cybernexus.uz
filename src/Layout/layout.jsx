@@ -13,7 +13,9 @@ export const Layout = () => {
         <div className="w-full fixed z-10 animate-[header-top-animation_0.5s_ease-in-out]">
           <WelcomeHeader />
         </div>
-        <div className="w-full overflow-y-scroll mt-[50px] h-full animate-[header-top-animation_1s_ease-in-out]">
+        <div className={classNames("w-full overflow-y-scroll mt-[50px] h-full",{
+"animate-[header-top-animation_1s_ease-in-out]": location.pathname != "/cyberflow",
+        })}>
           <Outlet />
         </div>
         <div
