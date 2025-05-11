@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Routers } from "../router";
-import { messaging, getToken, onMessage } from "./firebase";
 
 function App() {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -20,65 +17,60 @@ function App() {
     };
   }, []);
 
-  // Sayt yangi ochilganda bir marta /captcha ga yo‘naltirish
   useEffect(() => {
-    const hasVisited = sessionStorage.getItem("hasVisited");
+    const matrix = document.querySelector(".matrix-rain");
+    if (!matrix) return;
 
-    if (window.location.pathname === "/faq" && !hasVisited) {
-      sessionStorage.setItem("hasVisited", "true"); // Bir marta kirgani belgilandi
-      navigate("/captcha");
+    for (let i = 0; i < 100; i++) {
+      const span = document.createElement("span");
+      span.textContent = String.fromCharCode(0x30a0 + Math.random() * 96); // Matrix-style belgilar
+      span.style.left = Math.random() * 100 + "vw";
+      span.style.animationDuration = Math.random() * 5 + 5 + "s";
+      span.style.animationDelay = Math.random() * 5 + "s";
+      matrix.appendChild(span);
     }
-  }, [navigate]);
 
-  useEffect(() => {
-    // Notifikatsiya ruxsatini so‘rash
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        console.log("Notifikatsiyalarga ruxsat berildi.");
-        // Token olish
-        getToken(messaging, {
-          vapidKey:
-            "BL71Alvt3J8il1MbVB02TublVOqsPiv4xx0Ledc_zLOWt383di9gRSQyjePpTYomh71PLYPICjmbTE5meoq9Oas",
-        })
-          .then((currentToken) => {
-            if (currentToken) {
-              // Token’ni keyinroq ishlatish uchun saqlang
-            } else {
-              console.log("Token olinmadi.");
-            }
-          })
-          .catch((err) => {
-            console.error("Token olishda xato:", err);
-          });
-      } else {
-        console.log("Notifikatsiyalarga ruxsat berilmadi.");
-      }
-    });
-
-    // Foreground notifikatsiyalarni qabul qilish
-    onMessage(messaging, (payload) => {
-      console.log("Foreground xabar:", payload);
-      new Notification(payload.notification.title, {
-        body: payload.notification.body,
-        icon: "/icon.png",
-      });
-    });
+    return () => {
+      matrix.innerHTML = "";
+    };
   }, []);
+
+  const retryConnection = () => {
+    if (navigator.onLine) {
+      setIsOnline(true);
+    } else {
+      alert("Hali ham internet yo‘q!");
+    }
+  };
 
   return (
     <>
       {isOnline ? (
         <Routers />
       ) : (
-        <div className="fixed inset-0 w-full h-screen bg-gray-200 flex justify-center items-center z-50">
-          <div className="bg-gray-50 p-6 rounded-xl shadow-md text-center max-w-[90%] w-[400px] animate-fade-in border border-gray-200">
-            <div className="text-5xl mb-4 text-blue-400 animate-pulse">📡</div>
-            <h1 className="text-gray-700 text-xl md:text-2xl font-semibold mb-4">
-              Internet aloqasi yo‘q
+        <div className="fixed inset-0 bg-black text-neon-green font-mono flex justify-center items-center z-50 overflow-hidden">
+          {/* Scanline & Matrix Rain Effects */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="scanline"></div>
+            <div className="matrix-rain"></div>
+          </div>
+
+          {/* Terminal-style Message */}
+          <div className="z-10 text-center px-6 max-w-xl animate-fade-in-down">
+            <div className="text-5xl mb-4 animate-pulse-glow">📡</div>
+            <h1 className="text-2xl md:text-3xl font-bold mb-3 tracking-widest uppercase">
+              Internet ulanmagan
             </h1>
-            <p className="text-gray-500 text-sm md:text-base leading-relaxed">
-              Iltimos, internet aloqangizni tekshiring va qayta urinib ko‘ring.
+            <p className="text-sm md:text-base opacity-80 tracking-wide leading-relaxed mb-6">
+              Matrix aloqa uzildi. Iltimos, internetingizni tekshiring va
+              tizimga qayting.
             </p>
+            <button
+              onClick={retryConnection}
+              className="mt-2 px-6 py-2 rounded-md border border-neon-green text-neon-green hover:bg-neon-green hover:text-black transition-all duration-300 animate-pulse-glow"
+            >
+              Qayta urinib ko‘rish
+            </button>
           </div>
         </div>
       )}

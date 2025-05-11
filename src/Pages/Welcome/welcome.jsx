@@ -1,151 +1,95 @@
-import classNames from "classnames";
 import { Link } from "react-router-dom";
+import classNames from "classnames";
+import { motion } from "framer-motion";
 
 export const Welcome = () => {
+  const sections = [
+    {
+      title: "Welcome to Cyber Nexus",
+      description: "Cyber Nexus - Your Ultimate Cybersecurity Solution",
+      image: "/welcome.jpg",
+      link: "/",
+      reverse: false,
+    },
+    {
+      title: "Go to Premium App",
+      description: "Premium App - Your access to premium features",
+      image: "/premium-app.avif",
+      link: "/premium-app",
+      reverse: true,
+    },
+    {
+      title: "Go to News",
+      description: "News - Stay updated with the latest cybersecurity news",
+      image: "/news.webp",
+      link: "/news",
+      reverse: false,
+    },
+    {
+      title: "Go to About",
+      description: "About - Learn more about Cyber Nexus",
+      image: "/about.jpg",
+      link: "/about",
+      reverse: true,
+    },
+    {
+      title: "Go to Contact",
+      description: "Contact - Get in touch with us",
+      image: "/contact.jpg",
+      link: "/contact",
+      reverse: false,
+    },
+    {
+      title: "Go to Help",
+      description: "Help - Need help?",
+      image: "/help.jpeg",
+      link: "/help",
+      reverse: true,
+    },
+  ];
+
   return (
-    <div className="w-full flex flex-col h-full mt-[10px] px-[10px] items-center">
-      <div
-        className={classNames(
-          "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 border-gray-100 p-[5px] animate-[box-opacity-right-animation_0.9s_ease-in-out_0.85s_forwards] opacity-0 rounded-[5px]",
-          "flex flex-col md:flex-row items-center"
-        )}
-      >
-        <div className="w-full max-w-full">
-          <img
-            src="/welcome.jpg"
-            className="rounded-[6px] max-h-[350px] w-full object-cover"
-            alt="Rasm bor !"
-          />
-        </div>
-        <div className="w-full flex flex-col items-center">
-          <h1 className="font-bold text-center text-[20px] mt-[5px]">
-            Welcome to Cyber Nexus
-          </h1>
-          <p className="text-[15px] text-center font-[500]">
-            Cyber Nexus - Your Ultimate Cybersecurity Solution
-          </p>
-        </div>
+    <div className="w-full min-h-screen bg-black font-mono text-neon-green px-4 sm:px-6 pt-6 pb-10">
+      <div className="w-full max-w-5xl mx-auto">
+        {sections.map((section, index) => (
+          <Link key={index} to={section.link} className="w-full block">
+            <motion.div
+              className={classNames(
+                "mb-6 sm:mb-8 border-2 border-neon-green bg-black bg-opacity-80 shadow-neon rounded-lg p-4 sm:p-5 hover:animate-glitch",
+                "flex flex-col md:flex-row items-center",
+                { "md:flex-row-reverse": section.reverse }
+              )}
+              initial={{ opacity: 0, x: index % 2 === 0 ? 100 : -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.9,
+                delay: 0.3 + index * 0.3,
+                ease: "easeInOut",
+              }}
+              whileHover={{
+                boxShadow: "0 0 20px rgba(0, 255, 255, 0.5)",
+                borderColor: "#00f0ff",
+              }}
+            >
+              <div className="w-full md:w-1/2 mb-4 md:mb-0 md:pr-4">
+                <img
+                  src={section.image}
+                  className="rounded-lg max-h-[250px] sm:max-h-[300px] w-full object-cover border border-neon-blue shadow-neon-blue"
+                  alt={section.title}
+                />
+              </div>
+              <div className="w-full md:w-1/2 flex flex-col items-center text-center">
+                <h1 className="text-xl sm:text-2xl font-bold mb-2 tracking-wide text-neon-green">
+                  {section.title}
+                </h1>
+                <p className="text-sm sm:text-base font-medium text-neon-green opacity-80">
+                  {section.description}
+                </p>
+              </div>
+            </motion.div>
+          </Link>
+        ))}
       </div>
-      <Link className="w-full" to="/premium-app">
-        <div
-          className={classNames(
-            "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 animate-[box-opacity-left-animation_0.9s_ease-in-out_1.5s_forwards] opacity-0 border-gray-100 p-[5px] rounded-[5px]",
-            "flex flex-col md:flex-row-reverse items-center"
-          )}
-        >
-          <div className="w-full max-w-full">
-            <img
-              src="/premium-app.avif"
-              className="rounded-[6px] max-h-[350px] w-full object-cover"
-              alt="Rasm bor !"
-            />
-          </div>
-          <div className="w-full flex flex-col items-center">
-            <h1 className="font-bold text-center text-[20px] mt-[5px]">
-              Go to premium app
-            </h1>
-            <p className="text-[15px] text-center font-[500]">
-              Premium App - Your access to premium features
-            </p>
-          </div>
-        </div>
-      </Link>
-      <Link className="w-full" to={"/news"}>
-        <div
-          className={classNames(
-            "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 animate-[box-opacity-right-animation_0.9s_ease-in-out_2.1s_forwards] opacity-0 border-gray-100 p-[5px] rounded-[5px]",
-            "flex flex-col md:flex-row items-center"
-          )}
-        >
-          <div className="w-full max-w-full">
-            <img
-              src="/news.webp"
-              className="rounded-[6px] max-h-[350px] w-full object-cover"
-              alt="Rasm bor !"
-            />
-          </div>
-          <div className="w-full flex flex-col items-center">
-            <h1 className="font-bold text-center text-[20px] mt-[5px]">
-              Go to news
-            </h1>
-            <p className="text-[15px] text-center font-[500]">
-              News - Stay updated with the latest cybersecurity news
-            </p>
-          </div>
-        </div>
-      </Link>
-      <Link className="w-full" to={"/about"}>
-        <div
-          className={classNames(
-            "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 animate-[box-opacity-left-animation_0.9s_ease-in-out_3s_forwards] opacity-0 border-gray-100 p-[5px] rounded-[5px]",
-            "flex flex-col md:flex-row-reverse items-center"
-          )}
-        >
-          <div className="w-full max-w-full">
-            <img
-              src="/about.jpg"
-              className="rounded-[6px] max-h-[350px] w-full object-cover"
-              alt="Rasm bor !"
-            />
-          </div>
-          <div className="w-full flex flex-col items-center">
-            <h1 className="font-bold text-center text-[20px] mt-[5px]">
-              Go to about
-            </h1>
-            <p className="text-[15px] text-center font-[500]">
-              About - Learn more about Cyber Nexus
-            </p>
-          </div>
-        </div>
-      </Link>
-      <Link className="w-full" to={"/contact"}>
-        <div
-          className={classNames(
-            "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 animate-[box-opacity-right-animation_0.9s_ease-in-out_3.8s_forwards] opacity-0 border-gray-100 p-[5px] rounded-[5px]",
-            "flex flex-col md:flex-row items-center"
-          )}
-        >
-          <div className="w-full max-w-full">
-            <img
-              src="/contact.jpg"
-              className="rounded-[6px] max-h-[350px] w-full object-cover"
-              alt="Rasm bor !"
-            />
-          </div>
-          <div className="w-full flex flex-col items-center">
-            <h1 className="font-bold text-center text-[20px] mt-[5px]">
-              Go to contact
-            </h1>
-            <p className="text-[15px] text-center font-[500]">
-              Contact - Get in touch with us
-            </p>
-          </div>
-        </div>
-      </Link>
-      <Link className="w-full" to={"/help"}>
-        <div
-          className={classNames(
-            "w-full mb-[20px] border-2 shadow-md transition-all ease-in-out duration-500 shadow-gray-300 animate-[box-opacity-left-animation_0.9s_ease-in-out_4.5s_forwards] opacity-0 border-gray-100 p-[5px] rounded-[5px]",
-            "flex flex-col md:flex-row-reverse items-center"
-          )}
-        >
-          <div className="w-full max-w-full">
-            <img
-              src="/help.jpeg"
-              className="rounded-[6px] max-h-[350px] w-full object-cover"
-              alt="Rasm bor !"
-            />
-          </div>
-          <div className="w-full flex flex-col items-center">
-            <h1 className="font-bold text-center text-[20px] mt-[5px]">
-              Go to help
-            </h1>
-            <p className="text-[15px] text-center font-[500]">
-              Help - Need help?
-            </p>
-          </div>
-        </div>
-      </Link>
     </div>
   );
 };

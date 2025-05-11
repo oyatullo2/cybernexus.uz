@@ -1,38 +1,37 @@
 export const Error = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center animate-fade-in border border-gray-200 relative overflow-hidden">
-        {/* Gradient overlay effekti */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-indigo-50 to-pink-50 opacity-30 rounded-2xl pointer-events-none"></div>
+    <div className="w-full min-h-screen bg-black font-mono text-neon-green px-4 pt-6 pb-10 overflow-hidden relative">
+      {/* Scanline va Matrix Rain effektlari */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="scanline"></div>
+        <div className="matrix-rain"></div>
+      </div>
 
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center">
         {/* Xato belgisi */}
-        <div className="text-7xl md:text-9xl text-red-400 mb-6 mt-[10px] animate-bounce drop-shadow-md">
+        <div className="text-7xl md:text-9xl mb-6 animate-bounce animate-pulse-glow">
           ⚠️
         </div>
 
         {/* Sarlavha */}
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative z-10">
+        <h1 className="text-3xl md:text-5xl font-bold mb-4 animate-pulse-glow">
           404 - Sahifa topilmadi
         </h1>
 
         {/* Xabar */}
-        <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-6 relative z-10">
-          Kechirasiz, siz qidirgan manzil noto‘g‘ri yoki mavjud emas. Iltimos,
-          URLni tekshiring yoki bosh sahifaga qayting.
+        <p className="max-w-xl text-base md:text-lg leading-relaxed text-neon-green/80 mb-6">
+          Kechirasiz, siz qidirgan manzil mavjud emas yoki noto‘g‘ri kiritilgan.
         </p>
 
-        {/* Tugmalar */}
-        <div className="flex flex-col md:flex-row gap-4 justify-center relative z-10">
-          {/* Cybernexus.uz ga o'tish tugmasi */}
-          <a
-            href="https://cybernexus.uz"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-green-700 text-white py-2 px-6 rounded-full hover:bg-gray-800 transition-all duration-300 text-sm md:text-base font-medium shadow-md hover:shadow-lg"
-          >
-            Cybernexus.uz
-          </a>
-        </div>
+        {/* Tugma */}
+        <a
+          href="https://cybernexus.uz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-neon-blue text-black py-2 px-6 rounded-full hover:bg-neon-green hover:text-black transition-all duration-300 font-semibold shadow-lg hover:shadow-neon-green animate-fade-in-down"
+        >
+          Cybernexus.uz
+        </a>
       </div>
     </div>
   );

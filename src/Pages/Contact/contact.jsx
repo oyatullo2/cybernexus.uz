@@ -10,35 +10,35 @@ import {
   FaWhatsapp,
   FaYoutube,
   FaTiktok,
-  FaTwitter, // FaXTwitter o‘rniga FaTwitter
+  FaTwitter,
   FaGlobe,
-  FaMobileAlt, // Mobile app uchun yangi ikonka
+  FaMobileAlt,
 } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export const Contact = () => {
   const { mode } = useContext(GlobalContext);
 
-  // Marquee uchun ma'lumotlar va ikonka mapping
   const marqueeItems = [
     {
       text: "Web-site: cybernexus.uz",
       link: "https://cybernexus.uz",
-      icon: <FaGlobe className="inline-block ml-2 text-blue-500" />,
+      icon: <FaGlobe className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "Channel: @cyber_nexuss",
       link: "https://t.me/cyber_nexuss",
-      icon: <FaTelegram className="inline-block ml-2 text-blue-400" />,
+      icon: <FaTelegram className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "Chat: @cybernexus_chat",
       link: "https://t.me/cybernexus_chat",
-      icon: <FaTelegram className="inline-block ml-2 text-blue-400" />,
+      icon: <FaTelegram className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "Bot: @cybernexuss_bot",
       link: "https://t.me/cybernexuss_bot",
-      icon: <FaTelegram className="inline-block ml-2 text-blue-400" />,
+      icon: <FaTelegram className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "YouTube: @cyber_nexuss",
@@ -48,227 +48,212 @@ export const Contact = () => {
     {
       text: "Instagram: @cyber_nexuss",
       link: "https://instagram.com/cybernexus.uz",
-      icon: <FaInstagram className="inline-block ml-2 text-pink-500" />,
+      icon: <FaInstagram className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "Tiktok: @cyber_nexuss",
       link: "https://www.tiktok.com/@cyber.nexuss?_t=ZS-8us03V8s29Y&_r=1",
-      icon: <FaTiktok className="inline-block ml-2 text-black" />,
+      icon: <FaTiktok className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "X: @cyber_nexuss",
       link: "https://x.com/cyber_nexuss?t=l6IO3T3Y60C1ayUcT0MPfw&s=09",
-      icon: <FaTwitter className="inline-block ml-2 text-blue-600" />, // X uchun Twitter ikonkasi
+      icon: <FaTwitter className="inline-block ml-2 text-neon-blue" />,
     },
     {
       text: "Mobile app: download",
       link: "https://t.me/cyber_nexuss/75",
-      icon: <FaMobileAlt className="inline-block ml-2 text-green-500" />, // Mobile app uchun ikonka
+      icon: <FaMobileAlt className="inline-block ml-2 text-neon-blue" />,
     },
   ];
 
+  // Typing effect for heading
+  const headingText = "Contact Me";
+  const headingVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <>
-      <div className="w-full mt-[-50px] px-[10px] animate-[header-top-animation_1.5s_ease-in-out] flex flex-col items-center max-w-full h-screen overflow-hidden justify-center relative">
-        <h2
-          className={classNames("text-3xl font-bold mb-8", {
-            "text-white": mode === "dark",
-            "text-gray-800": mode === "light",
-          })}
+    <div className="w-full min-h-screen bg-black font-mono text-neon-green px-4 sm:px-6 pt-6 pb-10 overflow-x-hidden relative">
+      {/* Scanline background effect */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="scanline"></div>
+      </div>
+
+      <motion.div
+        className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center min-h-screen relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, ease: "easeInOut" }}
+      >
+        {/* Typing effect for heading */}
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold mb-8 text-center tracking-wider text-neon-green animate-pulse-glow"
+          variants={headingVariants}
+          initial="hidden"
+          animate="visible"
         >
-          Contact Me
-        </h2>
+          {headingText.split("").map((char, index) => (
+            <motion.span key={index} variants={letterVariants}>
+              {char}
+            </motion.span>
+          ))}
+        </motion.h2>
+
         <div
           className={classNames(
-            "w-full max-w-lg rounded-lg shadow-lg p-[20px] overflow-hidden",
-            {
-              "bg-gray-900 text-white": mode === "dark",
-            },
-            {
-              "bg-white text-black": mode === "light",
-            }
+            "w-full max-w-lg rounded-lg border-2 border-neon-green bg-black bg-opacity-80 shadow-neon p-5",
+            "transition-all duration-300"
           )}
         >
           {/* Social Media Links */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <a
+            <motion.a
               href="https://t.me/snovden_01"
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
-                {
-                  "bg-blue-50 hover:bg-blue-100 text-gray-700":
-                    mode === "light",
-                  "bg-blue-900 hover:bg-blue-800 text-white": mode === "dark",
-                }
+                "flex items-center space-x-2 sm:space-x-4 p-3 rounded-md transition-colors bg-neon-blue bg-opacity-20 hover:bg-opacity-40",
+                "text-neon-green hover:text-neon-blue"
               )}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.2, ease: "easeInOut" }}
             >
-              <FaTelegram className="w-6 h-6 sm:w-7 sm:h-7 text-blue-500 flex-shrink-0" />
-              <span className="text-base sm:text-lg">Telegram</span>
-            </a>
-            <a
+              <FaTelegram className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-sm sm:text-lg">Telegram</span>
+            </motion.a>
+            <motion.a
               href="https://instagram.com/cybernexus.uz"
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
-                {
-                  "bg-pink-50 hover:bg-pink-100 text-gray-700":
-                    mode === "light",
-                  "bg-pink-900 hover:bg-pink-800 text-white": mode === "dark",
-                }
+                "flex items-center space-x-2 sm:space-x-4 p-3 rounded-md transition-colors bg-neon-blue bg-opacity-20 hover:bg-opacity-40",
+                "text-neon-green hover:text-neon-blue"
               )}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.4, ease: "easeInOut" }}
             >
-              <FaInstagram className="w-6 h-6 sm:w-7 sm:h-7 text-pink-500 flex-shrink-0" />
-              <span className="text-base sm:text-lg">Instagram</span>
-            </a>
-            <a
+              <FaInstagram className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-sm sm:text-lg">Instagram</span>
+            </motion.a>
+            <motion.a
               href="https://wa.me/+998935188508"
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
-                {
-                  "bg-green-100 hover:bg-green-200 text-gray-700":
-                    mode === "light",
-                  "bg-green-900 hover:bg-green-800 text-white": mode === "dark",
-                }
+                "flex items-center space-x-2 sm:space-x-4 p-3 rounded-md transition-colors bg-neon-blue bg-opacity-20 hover:bg-opacity-40",
+                "text-neon-green hover:text-neon-blue"
               )}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.6, ease: "easeInOut" }}
             >
-              <FaWhatsapp className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 flex-shrink-0" />
-              <span className="text-base sm:text-lg">WhatsApp</span>
-            </a>
-            <a
+              <FaWhatsapp className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-sm sm:text-lg">WhatsApp</span>
+            </motion.a>
+            <motion.a
               href="tel:+998935188508"
               className={classNames(
-                "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
-                {
-                  "bg-green-50 hover:bg-green-100 text-gray-700":
-                    mode === "light",
-                  "bg-green-900 hover:bg-green-800 text-white": mode === "dark",
-                }
+                "flex items-center space-x-2 sm:space-x-4 p-3 rounded-md transition-colors bg-neon-blue bg-opacity-20 hover:bg-opacity-40",
+                "text-neon-green hover:text-neon-blue"
               )}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1.8, ease: "easeInOut" }}
             >
-              <FaPhone className="w-6 h-6 sm:w-7 sm:h-7 text-green-500 flex-shrink-0" />
-              <span className="text-base sm:text-lg">Phone</span>
-            </a>
-            <a
+              <FaPhone className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-sm sm:text-lg">Phone</span>
+            </motion.a>
+            <motion.a
               href="mailto:izzatullayev008@gmail.com"
               className={classNames(
-                "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
-                {
-                  "bg-red-50 hover:bg-red-100 text-gray-700": mode === "light",
-                  "bg-red-900 hover:bg-red-800 text-white": mode === "dark",
-                }
+                "flex items-center space-x-2 sm:space-x-4 p-3 rounded-md transition-colors bg-neon-blue bg-opacity-20 hover:bg-opacity-40",
+                "text-neon-green hover:text-neon-blue"
               )}
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 2.0, ease: "easeInOut" }}
             >
-              <FaEnvelope className="w-6 h-6 sm:w-7 sm:h-7 text-red-500 flex-shrink-0" />
-              <span className="text-base sm:text-lg">Email</span>
-            </a>
-            <a
+              <FaEnvelope className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-sm sm:text-lg">Email</span>
+            </motion.a>
+            <motion.a
               href="https://github.com/oyatullo2"
               target="_blank"
               rel="noopener noreferrer"
               className={classNames(
-                "flex items-center space-x-2 sm:space-x-4 p-3 sm:p-4 rounded-md transition-colors",
-                {
-                  "bg-gray-50 hover:bg-gray-100 text-gray-700":
-                    mode === "light",
-                  "bg-gray-700 hover:bg-gray-600 text-white": mode === "dark",
-                }
+                "flex items-center space-x-2 sm:space-x-4 p-3 rounded-md transition-colors bg-neon-blue bg-opacity-20 hover:bg-opacity-40",
+                "text-neon-green hover:text-neon-blue"
               )}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 2.2, ease: "easeInOut" }}
             >
-              <FaGithub className="w-6 h-6 sm:w-7 sm:h-7 text-gray-800 flex-shrink-0" />
-              <span className="text-base sm:text-lg">GitHub</span>
-            </a>
+              <FaGithub className="w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0" />
+              <span className="text-sm sm:text-lg">GitHub</span>
+            </motion.a>
           </div>
         </div>
 
-        {/* Marquee qismi */}
-        <div className="absolute bottom-0 w-full overflow-hidden marquee-container">
-          <div
-            className={classNames(
-              "marquee flex whitespace-nowrap animate-marquee py-2 items-center justify-center",
-            )}
-          >
-            {/* Salomlashuv va xabar */}
-            <span
-              className={classNames(
-                "mx-4 text-sm sm:text-base font-semibold flex-shrink-0",
-                {
-                  "text-white": mode === "dark",
-                  "text-gray-800": mode === "light",
-                }
-              )}
+        {/* Marquee Section */}
+        <motion.div
+          className="w-full max-w-5xl mt-8 relative z-10"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 2.5, ease: "easeInOut" }}
+        >
+          <div className="w-full overflow-hidden bg-black bg-opacity-80 border-2 border-neon-green rounded-lg shadow-neon">
+            <motion.div
+              className="flex whitespace-nowrap py-2 items-center justify-center animate-marquee"
+              initial={{ x: "100%" }}
+              animate={{ x: "-100%" }}
+              transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.animationPlayState = "paused")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.animationPlayState = "running")
+              }
             >
-              Bizning boshqa ijtimoiy tarmoqdagi manzillarimiz: <FaGlobe className="inline-block ml-2"/>
-            </span>
-            {/* Linklar */}
-            {marqueeItems.map((item, index) => (
-              <a
-                key={index}
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classNames(
-                  "mx-4 text-sm sm:text-base font-medium rounded-full px-3 py-1 transition-all duration-300 hover:scale-105",
-                  {
-                    "bg-blue-600 text-white hover:bg-blue-700": mode === "dark",
-                    "bg-blue-100 text-blue-800 hover:bg-blue-200":
-                      mode === "light",
-                  }
-                )}
-              >
-                {item.text} {item.icon}
-              </a>
-            ))}
+              <span className="mx-4 text-sm sm:text-base font-semibold text-neon-green flex-shrink-0">
+                Bizning boshqa ijtimoiy tarmoqdagi manzillarimiz:{" "}
+                <FaGlobe className="inline-block ml-2 text-neon-blue" />
+              </span>
+              {marqueeItems.map((item, index) => (
+                <motion.a
+                  key={index}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={classNames(
+                    "mx-4 text-sm sm:text-base font-medium rounded-full px-3 py-1 transition-all duration-300 hover:scale-105",
+                    "bg-neon-blue bg-opacity-20 text-neon-green hover:bg-opacity-40 hover:text-neon-blue"
+                  )}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                >
+                  {item.text} {item.icon}
+                </motion.a>
+              ))}
+            </motion.div>
           </div>
-        </div>
-      </div>
-
-      {/* CSS animatsiya va style */}
-      <style jsx>{`
-        .marquee-container {
-          position: absolute;
-          bottom: 0; /* Kompyuterda pastda */
-          width: 100%;
-          overflow: hidden;
-        }
-        .marquee {
-          display: flex;
-          animation: marquee-desktop 30s linear infinite; /* Kompyuterda 30s */
-        }
-        @keyframes marquee-desktop {
-          0% {
-            transform: translateX(100%);
-          }
-          100% {
-            transform: translateX(-100%);
-          }
-        }
-        .marquee:hover {
-          animation-play-state: paused; /* Hover qilinganda to‘xtaydi */
-        }
-
-        /* Mobil uchun media query */
-        @media (max-width: 640px) {
-          .marquee-container {
-            bottom: 25px; /* Telefonda teparoq */
-          }
-          .marquee {
-            animation: marquee-mobile 10s linear infinite; /* Telefonda 20s */
-          }
-          @keyframes marquee-mobile {
-            0% {
-              transform: translateX(100%);
-            }
-            100% {
-              transform: translateX(-100%);
-            }
-          }
-        }
-      `}</style>
-    </>
+        </motion.div>
+      </motion.div>
+    </div>
   );
 };
+
+export default Contact;
