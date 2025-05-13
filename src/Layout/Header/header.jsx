@@ -87,7 +87,7 @@ export const WelcomeHeader = () => {
         </Link>
 
         <div className="flex flex-col gap-3 sm:gap-4 text-base sm:text-lg text-neon-green">
-          {["premium-app", "news", "about", "contact", "help", "cyberflow"].map(
+          {["premium-app", "news", "about", "contact", "help", "cyberflow", "ctf-challenge"].map(
             (path, index) => (
               <motion.div
                 key={path}

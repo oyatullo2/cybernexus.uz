@@ -8,6 +8,7 @@ import { Contact } from "./src/Pages/Contact/contact";
 import { Help } from "./src/Pages/Help/help";
 import { Error } from "./src/Pages/Error/error";
 import { Cyberflow } from "./src/Pages/Cyberflow/cyberflow";
+import { Terminal } from "./src/Pages/Terminale/terminal";
 
 export const Routers = () => {
   return (
@@ -20,6 +21,7 @@ export const Routers = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/help" element={<Help />} />
         <Route path="/cyberflow" element={<Cyberflow />} />
+        <Route path="/ctf-challenge" element={<Terminal />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>
