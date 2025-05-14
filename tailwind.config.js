@@ -2,24 +2,25 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+ 
     extend: {
       colors: {
         "neon-green": "#00ff00",
         "neon-blue": "#00f0ff",
       },
+      boxShadow: {
+        neon: "0 0 10px rgba(0, 255, 0, 0.5)",
+        "neon-blue": "0 0 10px rgba(0, 240, 255, 0.5)",
+      },
       animation: {
-        "fade-in": "fadeIn 0.3s ease-in",
+        scanline: "scanline 2s linear infinite",
       },
       keyframes: {
-        fadeIn: {
-          "0%": { opacity: "0", transform: "translateY(-50px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
+        scanline: {
+          "0%": { background: "linear-gradient(to bottom, transparent 50%, rgba(0, 255, 0, 0.1) 50%)" },
+          "50%": { background: "linear-gradient(to bottom, transparent 50%, rgba(0, 255, 0, 0.3) 50%)" },
+          "100%": { background: "linear-gradient(to bottom, transparent 50%, rgba(0, 255, 0, 0.1) 50%)" },
         },
-      },
-      boxShadow: {
-        neon: "0 0 10px rgba(0, 255, 0, 0.5), 0 0 20px rgba(0, 255, 0, 0.3)",
-        "neon-blue":
-          "0 0 10px rgba(0, 240, 255, 0.5), 0 0 20px rgba(0, 240, 255, 0.3)",
       },
     },
   },

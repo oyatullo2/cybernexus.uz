@@ -9,6 +9,11 @@ import { Help } from "./src/Pages/Help/help";
 import { Error } from "./src/Pages/Error/error";
 import { Cyberflow } from "./src/Pages/Cyberflow/cyberflow";
 import { Terminal } from "./src/Pages/Terminale/terminal";
+import QRCodeGenerator from "./src/Pages/Qr/qr";
+import Base64Tool from "./src/Pages/Base64/base64";
+import UuidGenerator from "./src/UUID/uuid";
+import HashGeneral from "./src/Pages/Hash/hash";
+import NasaImage from "./src/Pages/Nasa/kosmos";
 
 export const Routers = () => {
   return (
@@ -22,6 +27,11 @@ export const Routers = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/cyberflow" element={<Cyberflow />} />
         <Route path="/ctf-challenge" element={<Terminal />} />
+        <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
+        <Route path="/base64-code" element={<Base64Tool />} />
+        <Route path="/uuid-generator" element={<UuidGenerator />} />
+        <Route path="/hash-service" element={<HashGeneral />} />
+        <Route path="/nasa-gallery" element={<NasaImage />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>

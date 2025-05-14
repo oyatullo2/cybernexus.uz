@@ -87,22 +87,33 @@ export const WelcomeHeader = () => {
         </Link>
 
         <div className="flex flex-col gap-3 sm:gap-4 text-base sm:text-lg text-neon-green">
-          {["premium-app", "news", "about", "contact", "help", "cyberflow", "ctf-challenge"].map(
-            (path, index) => (
-              <motion.div
-                key={path}
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.1 * index }}
-              >
-                <Link to={`/${path}`}>
-                  <p className="cursor-pointer hover:text-neon-blue transition-colors duration-200 tracking-wide">
-                    {path.charAt(0).toUpperCase() + path.slice(1)}
-                  </p>
-                </Link>
-              </motion.div>
-            )
-          )}
+          {[
+            "premium-app",
+            "news",
+            "about",
+            "contact",
+            "help",
+            "cyberflow",
+            "nasa-gallery",
+            "qr-code-generator",
+            "base64-code",
+            "uuid-generator",
+            "hash-service",
+            "ctf-challenge",
+          ].map((path, index) => (
+            <motion.div
+              key={path}
+              initial={{ x: 50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.1 * index }}
+            >
+              <Link to={`/${path}`}>
+                <p className="cursor-pointer hover:text-neon-blue transition-colors duration-200 tracking-wide">
+                  {path.charAt(0).toUpperCase() + path.slice(1)}
+                </p>
+              </Link>
+            </motion.div>
+          ))}
         </div>
 
         <motion.label
