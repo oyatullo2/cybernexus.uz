@@ -1,113 +1,352 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-// Virtual fayl tizimi
+// Yangilangan virtual fayl tizimi
 const filesystem = {
   home: {
     user: {
       ctfs: {
-        ctf1: {
-          "readme.txt": "flag{welcome}",
-          "hint.txt": "Use: cat readme.txt",
+        easy: {
+          ctf1: {
+            "readme.txt": "flag{welcome}",
+            "hint.txt": "Use: cat readme.txt",
+          },
+          ctf2: {
+            ".flag.txt": "flag{hidden}",
+            "hint.txt": "Use: ls -a; cat .flag.txt",
+          },
+          ctf3: {
+            "log.txt": "Log: flag{grep_it} at 12:00",
+            "hint.txt": "Use: grep flag log.txt",
+          },
+          ctf4: {
+            "part1.txt": "flag{com",
+            "part2.txt": "bine}",
+            "hint.txt": "Use: cat part1.txt part2.txt",
+          },
+          ctf5: { "data.txt": "flag{simple}", "hint.txt": "Use: cat data.txt" },
+          ctf6: {
+            folder: { "flag.txt": "flag{folder}" },
+            "hint.txt": "Use: cd folder; cat flag.txt",
+          },
+          ctf7: {
+            "secret.txt": "flag{read}",
+            "hint.txt": "Use: cat secret.txt",
+          },
+          ctf8: { "notes.txt": "flag{note}", "hint.txt": "Use: cat notes.txt" },
+          ctf9: {
+            ".secret.txt": "flag{stealth}",
+            "hint.txt": "Use: ls -a; cat .secret.txt",
+          },
+          ctf10: { "info.txt": "flag{info}", "hint.txt": "Use: cat info.txt" },
+          ctf11: { "memo.txt": "flag{memo}", "hint.txt": "Use: cat memo.txt" },
+          ctf12: {
+            "backup.txt": "flag{backup}",
+            "hint.txt": "Use: cat backup.txt",
+          },
+          ctf13: {
+            "logs.txt": "Logs: flag{search} at 14:00",
+            "hint.txt": "Use: grep flag logs.txt",
+          },
+          ctf14: {
+            "chunk1.txt": "flag{me",
+            "chunk2.txt": "rge}",
+            "hint.txt": "Use: cat chunk1.txt chunk2.txt",
+          },
+          ctf15: {
+            "entry.txt": "flag{entry}",
+            "hint.txt": "Use: cat entry.txt",
+          },
+          ctf16: {
+            ".data.txt": "flag{data}",
+            "hint.txt": "Use: ls -a; cat .data.txt",
+          },
+          ctf17: { "file.txt": "flag{file}", "hint.txt": "Use: cat file.txt" },
+          ctf18: {
+            "record.txt": "flag{record}",
+            "hint.txt": "Use: cat record.txt",
+          },
+          ctf19: {
+            "system.txt": "flag{system}",
+            "hint.txt": "Use: cat system.txt",
+          },
+          ctf20: {
+            "config.txt": "flag{config}",
+            "hint.txt": "Use: cat config.txt",
+          },
+          ctf21: {
+            "logs2.txt": "Log: flag{logs} at 15:00",
+            "hint.txt": "Use: grep flag logs2.txt",
+          },
+          ctf22: {
+            ".hidden.txt": "flag{cloak}",
+            "hint.txt": "Use: ls -a; cat .hidden.txt",
+          },
+          ctf23: {
+            "part3.txt": "flag{to",
+            "part4.txt": "gether}",
+            "hint.txt": "Use: cat part3.txt part4.txt",
+          },
+          ctf24: {
+            deep: { "flag.txt": "flag{deep}" },
+            "hint.txt": "Use: cd deep; cat flag.txt",
+          },
+          ctf25: {
+            "archive.txt": "flag{archive}",
+            "hint.txt": "Use: cat archive.txt",
+          },
+          ctf26: {
+            "trace.txt": "flag{trace}",
+            "hint.txt": "Use: cat trace.txt",
+          },
+          ctf27: {
+            ".trace.txt": "flag{shadow}",
+            "hint.txt": "Use: ls -a; cat .trace.txt",
+          },
+          ctf28: {
+            "event.txt": "flag{event}",
+            "hint.txt": "Use: cat event.txt",
+          },
+          ctf29: {
+            "logs3.txt": "Log: flag{track} at 16:00",
+            "hint.txt": "Use: grep flag logs3.txt",
+          },
+          ctf30: { "core.txt": "flag{core}", "hint.txt": "Use: cat core.txt" },
         },
-        ctf2: {
-          ".flag.txt": "flag{hidden}",
-          "hint.txt": "Use: ls -a; cat .flag.txt",
+        normal: {
+          ctf1: {
+            "challenge.txt": "ZmxhZ3tkZWNvZGV9",
+            "hint.txt": "Use: base64 -d challenge.txt",
+          },
+          ctf2: {
+            "cipher.txt": "synt{cipher}",
+            "hint.txt": "ROT13: synt means flag",
+          },
+          ctf3: {
+            passwd: "user:flag{passwd}:1000:1000",
+            "hint.txt": "Use: cat passwd",
+          },
+          ctf4: {
+            "encoded.txt": "ZmxhZ3tiYXNlNjR9",
+            "hint.txt": "Use: base64 -d encoded.txt",
+          },
+          ctf5: {
+            "hex.txt": "666c61677b6865787d",
+            "hint.txt": "Use: xxd hex.txt; decode hex",
+          },
+          ctf6: {
+            shadow: "user:flag{shadow}:1000:1000",
+            "hint.txt": "Use: cat shadow",
+          },
+          ctf7: {
+            "crypt.txt": "ZmxhZ3tjcnlwdH0=",
+            "hint.txt": "Use: base64 -d crypt.txt",
+          },
+          ctf8: {
+            "code.txt": "synt{rot13}",
+            "hint.txt": "ROT13: synt means flag",
+          },
+          ctf9: { "stats.txt": "flag{stats}", "hint.txt": "Use: wc stats.txt" },
+          ctf10: {
+            "first.txt": "flag{first}\nline2\nline3",
+            "hint.txt": "Use: head first.txt",
+          },
+          ctf11: {
+            "last.txt": "line1\nline2\nflag{last}",
+            "hint.txt": "Use: tail last.txt",
+          },
+          ctf12: {
+            nested: { "flag.txt": "flag{nested}" },
+            "hint.txt": "Use: find . -name flag.txt",
+          },
+          ctf13: {
+            "data.txt": "Binary: flag{binary}",
+            "hint.txt": "Use: strings data.txt",
+          },
+          ctf14: {
+            "hex2.txt": "666c61677b636f64657d",
+            "hint.txt": "Use: xxd hex2.txt; decode hex",
+          },
+          ctf15: {
+            "logs.txt": "flag{case} at 17:00",
+            "hint.txt": "Use: grep -i flag logs.txt",
+          },
+          ctf16: {
+            "copy.txt": "flag{copy}",
+            "hint.txt": "Use: cp copy.txt new.txt; cat new.txt",
+          },
+          ctf17: {
+            "move.txt": "flag{move}",
+            "hint.txt": "Use: mv move.txt moved.txt; cat moved.txt",
+          },
+          ctf18: {
+            "write.txt": "",
+            "hint.txt": "Use: echo 'flag{write}' > write.txt; cat write.txt",
+          },
+          ctf19: { dir: {}, "hint.txt": "Use: mkdir newdir; ls" },
+          ctf20: { "empty.txt": "", "hint.txt": "Use: touch newfile.txt; ls" },
+          ctf21: {
+            "remove.txt": "flag{remove}",
+            "hint.txt": "Use: rm remove.txt; ls",
+          },
+          ctf22: {
+            deep: { secret: { "flag.txt": "flag{deep}" } },
+            "hint.txt": "Use: find . -name flag.txt",
+          },
+          ctf23: {
+            "encode.txt": "ZmxhZ3tlbmNvZGV9",
+            "hint.txt": "Use: base64 -d encode.txt",
+          },
+          ctf24: {
+            "cipher2.txt": "synt{shift}",
+            "hint.txt": "ROT13: synt means flag",
+          },
+          ctf25: { config: "flag{config}", "hint.txt": "Use: cat config" },
+          ctf26: {
+            "stats2.txt": "flag{count}",
+            "hint.txt": "Use: wc stats2.txt",
+          },
+          ctf27: {
+            "head2.txt": "flag{top}\nline2",
+            "hint.txt": "Use: head head2.txt",
+          },
+          ctf28: {
+            "tail2.txt": "line1\nflag{bottom}",
+            "hint.txt": "Use: tail tail2.txt",
+          },
+          ctf29: {
+            "binary.txt": "flag{extract}",
+            "hint.txt": "Use: strings binary.txt",
+          },
+          ctf30: {
+            "search.txt": "flag{search}",
+            "hint.txt": "Use: grep -i flag search.txt",
+          },
         },
-        ctf3: {
-          "log.txt": "Log: flag{grep_it} at 12:00",
-          "hint.txt": "Use: grep flag log.txt",
+        hard: {
+          ctf1: {
+            "root/flag.txt": "flag{root}",
+            "hint.txt": "Use: cat /root/flag.txt",
+          },
+          ctf2: {
+            "etc/secret.txt": "flag{final}",
+            "hint.txt": "Use: cat /etc/secret.txt",
+          },
+          ctf3: {
+            "root/hidden.txt": "flag{elite}",
+            "hint.txt": "Use: cat /root/hidden.txt",
+          },
+          ctf4: {
+            "deep/nested/secret/flag.txt": "flag{buried}",
+            "hint.txt": "Use: find / -name flag.txt",
+          },
+          ctf5: {
+            "complex.txt": "ZmxhZ3tjb21wbGV4fQ==",
+            "hint.txt":
+              "Use: base64 -d complex.txt > decoded.txt; cat decoded.txt",
+          },
+          ctf6: {
+            "hex3.txt": "666c61677b6164v616e6365647d",
+            "hint.txt": "Use: xxd hex3.txt; decode hex",
+          },
+          ctf7: {
+            "logs.txt": "flag{deepgrep} buried",
+            "hint.txt": "Use: grep -r flag .",
+          },
+          ctf8: {
+            "nano.txt": "",
+            "hint.txt": "Use: nano nano.txt; write flag{nano}; save (Ctrl+X)",
+          },
+          ctf9: {
+            "binary2.txt": "flag{binary2}",
+            "hint.txt": "Use: strings binary2.txt",
+          },
+          ctf10: {
+            "multi.txt": "synt{complex}",
+            "hint.txt": "ROT13: synt means flag",
+          },
+          ctf11: {
+            "chain.txt": "",
+            "hint.txt": "Use: echo 'flag{chain}' > chain.txt; base64 chain.txt",
+          },
+          ctf12: {
+            "archive/logs/secret.txt": "flag{archive}",
+            "hint.txt": "Use: find / -name secret.txt",
+          },
+          ctf13: {
+            "secure.txt": "ZmxhZ3tzZWN1cmV9",
+            "hint.txt": "Use: base64 -d secure.txt",
+          },
+          ctf14: {
+            "complex2.txt": "666c61677b636f6d706c6578327d",
+            "hint.txt": "Use: xxd complex2.txt; decode hex",
+          },
+          ctf15: {
+            "logs2.txt": "FLAG{case} at 18:00",
+            "hint.txt": "Use: grep -i flag logs2.txt",
+          },
+          ctf16: {
+            "script.sh": "echo flag{script}",
+            "hint.txt": "Use: cat script.sh",
+          },
+          ctf17: {
+            "deep/very/secret/flag.txt": "flag{verydeep}",
+            "hint.txt": "Use: find / -name flag.txt",
+          },
+          ctf18: {
+            "cipher3.txt": "synt{advanced}",
+            "hint.txt": "ROT13: synt means flag",
+          },
+          ctf19: {
+            "backup/logs/secret.txt": "flag{backup}",
+            "hint.txt": "Use: find / -name secret.txt",
+          },
+          ctf20: {
+            "encode2.txt": "ZmxhZ3tlbmNvZGUyfQ==",
+            "hint.txt": "Use: base64 -d encode2.txt",
+          },
+          ctf21: {
+            "hex4.txt": "666c61677b686578347d",
+            "hint.txt": "Use: xxd hex4.txt; decode hex",
+          },
+          ctf22: {
+            "logs3.txt": "flag{deepsearch} hidden",
+            "hint.txt": "Use: grep -r flag .",
+          },
+          ctf23: {
+            "nano2.txt": "",
+            "hint.txt": "Use: nano nano2.txt; write flag{nano2}; save (Ctrl+X)",
+          },
+          ctf24: {
+            "binary3.txt": "flag{binary3}",
+            "hint.txt": "Use: strings binary3.txt",
+          },
+          ctf25: {
+            "multi2.txt": "synt{multi}",
+            "hint.txt": "ROT13: synt means flag",
+          },
+          ctf26: {
+            "chain2.txt": "",
+            "hint.txt":
+              "Use: echo 'flag{chain2}' > chain2.txt; base64 chain2.txt",
+          },
+          ctf27: {
+            "archive2/logs/secret.txt": "flag{archive2}",
+            "hint.txt": "Use: find / -name secret.txt",
+          },
+          ctf28: {
+            "secure2.txt": "ZmxhZ3tzZWN1cmUyfQ==",
+            "hint.txt": "Use: base64 -d secure2.txt",
+          },
+          ctf29: {
+            "complex3.txt": "666c61677b636f6d706c6578337d",
+            "hint.txt": "Use: xxd complex3.txt; decode hex",
+          },
+          ctf30: {
+            "logs4.txt": "flag{finalsearch} deep",
+            "hint.txt": "Use: grep -r flag .",
+          },
         },
-        ctf4: {
-          "part1.txt": "flag{com",
-          "part2.txt": "bine}",
-          "hint.txt": "Use: cat part1.txt part2.txt",
-        },
-        ctf5: {
-          "challenge.txt": "ZmxhZ3tkZWNvZGV9",
-          "hint.txt": "Use: base64 -d challenge.txt",
-        },
-        ctf6: {
-          folder: { "flag.txt": "flag{folder}" },
-          "hint.txt": "Use: cd folder; cat flag.txt",
-        },
-        ctf7: { "secret.txt": "flag{read}", "hint.txt": "Use: cat secret.txt" },
-        ctf8: {
-          "cipher.txt": "synt{cipher}",
-          "hint.txt": "ROT13: synt means flag",
-        },
-        ctf9: {
-          passwd: "user:flag{passwd}:1000:1000",
-          "hint.txt": "Use: cat passwd",
-        },
-        ctf10: { "hint.txt": "Use: cat /root/flag.txt" },
-        ctf11: { "notes.txt": "flag{note}", "hint.txt": "Use: cat notes.txt" },
-        ctf12: {
-          ".secret.txt": "flag{secret}",
-          "hint.txt": "Use: ls -a; cat .secret.txt",
-        },
-        ctf13: {
-          "data.txt": "Data: flag{find} at 13:00",
-          "hint.txt": "Use: grep flag data.txt",
-        },
-        ctf14: {
-          "half1.txt": "flag{jo",
-          "half2.txt": "in}",
-          "hint.txt": "Use: cat half1.txt half2.txt",
-        },
-        ctf15: {
-          "encoded.txt": "ZmxhZ3tiYXNlNjR9",
-          "hint.txt": "Use: base64 -d encoded.txt",
-        },
-        ctf16: {
-          deep: { "flag.txt": "flag{deep}" },
-          "hint.txt": "Use: cd deep; cat flag.txt",
-        },
-        ctf17: { "info.txt": "flag{info}", "hint.txt": "Use: cat info.txt" },
-        ctf18: {
-          "code.txt": "synt{rot13}",
-          "hint.txt": "ROT13: synt means flag",
-        },
-        ctf19: {
-          config: "user:flag{config}:1000:1000",
-          "hint.txt": "Use: cat config",
-        },
-        ctf20: { "hint.txt": "Use: cat /etc/secret.txt" },
-        ctf21: { "memo.txt": "flag{memo}", "hint.txt": "Use: cat memo.txt" },
-        ctf22: {
-          ".hidden.txt": "flag{stealth}",
-          "hint.txt": "Use: ls -a; cat .hidden.txt",
-        },
-        ctf23: {
-          "logs.txt": "Logs: flag{search} at 14:00",
-          "hint.txt": "Use: grep flag logs.txt",
-        },
-        ctf24: {
-          "chunk1.txt": "flag{me",
-          "chunk2.txt": "rge}",
-          "hint.txt": "Use: cat chunk1.txt chunk2.txt",
-        },
-        ctf25: {
-          "hex.txt": "666c61677b6865787d",
-          "hint.txt": "Use: xxd hex.txt; decode hex",
-        },
-        ctf26: {
-          nested: { "flag.txt": "flag{nested}" },
-          "hint.txt": "Use: cd nested; cat flag.txt",
-        },
-        ctf27: {
-          "backup.txt": "flag{backup}",
-          "hint.txt": "Use: cat backup.txt",
-        },
-        ctf28: {
-          "crypt.txt": "ZmxhZ3tjcnlwdH0=",
-          "hint.txt": "Use: base64 -d crypt.txt",
-        },
-        ctf29: {
-          shadow: "user:flag{shadow}:1000:1000",
-          "hint.txt": "Use: cat shadow",
-        },
-        ctf30: { "hint.txt": "Use: cat /root/hidden.txt" },
       },
     },
   },
@@ -130,7 +369,7 @@ export const Terminal = () => {
   const [aliases, setAliases] = useState({});
   const terminalRef = useRef(null);
 
-  // Copy-paste’ni taqiqlash
+  // Copy-paste taqiqlash
   useEffect(() => {
     const prevent = (e) => e.preventDefault();
     document.addEventListener("copy", prevent);
@@ -147,7 +386,7 @@ export const Terminal = () => {
   useEffect(() => {
     const matrix = document.querySelector(".matrix-rain");
     if (!matrix) return;
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 500; i++) {
       const span = document.createElement("span");
       span.textContent = String.fromCharCode(0x30a0 + Math.random() * 96);
       span.style.left = Math.random() * 100 + "vw";
@@ -236,6 +475,17 @@ export const Terminal = () => {
     return { lines: lines.length, words, chars };
   };
 
+  // ROT13 dekodlash
+  const rot13 = (str) => {
+    return str.replace(/[a-zA-Z]/g, (c) =>
+      String.fromCharCode(
+        (c <= "Z" ? 90 : 122) >= c.charCodeAt(0) + 13
+          ? c.charCodeAt(0) + 13
+          : c.charCodeAt(0) - 13
+      )
+    );
+  };
+
   // Buyruqlarni qayta ishlash
   const handleCommand = (cmd) => {
     let newOutput = [...output];
@@ -268,15 +518,18 @@ export const Terminal = () => {
       case "ls":
       case "dir":
         {
-          const lsPath = args[0] ? resolvePath(args[0]) : currentDir;
+          const lsPath =
+            args[0] && !args[0].startsWith("-")
+              ? resolvePath(args[0])
+              : currentDir;
           const node = getNode(lsPath);
           if (!node || typeof node !== "object") {
             newOutput.push(
               `ls: cannot access '${args[0] || ""}': No such file or directory`
             );
           } else {
-            const showHidden = args.includes("-a");
-            const showDetails = args.includes("-l");
+            const showHidden = args.includes("-a") || args.includes("--all");
+            const showDetails = args.includes("-l") || args.includes("--long");
             const files = Object.keys(node)
               .filter((f) => showHidden || !f.startsWith("."))
               .sort();
@@ -346,10 +599,24 @@ export const Terminal = () => {
         break;
       case "base64":
         if (args[0] === "-d" && args[1]) {
-          try {
-            newOutput.push(atob(args[1]));
-          } catch {
-            newOutput.push("base64: invalid input");
+          const filePath = resolvePath(args[1]);
+          if (pathExists(filePath)) {
+            const node = getNode(filePath);
+            if (typeof node === "object") {
+              newOutput.push(`base64: ${args[1]}: Is a directory`);
+            } else {
+              try {
+                newOutput.push(atob(node));
+              } catch {
+                newOutput.push("base64: invalid input");
+              }
+            }
+          } else {
+            try {
+              newOutput.push(atob(args[1]));
+            } catch {
+              newOutput.push("base64: invalid input");
+            }
           }
         } else if (args[0]) {
           try {
@@ -358,30 +625,67 @@ export const Terminal = () => {
             newOutput.push("base64: encoding error");
           }
         } else {
-          newOutput.push("Usage: base64 [-d] [string]");
+          newOutput.push("Usage: base64 [-d] [string|file]");
         }
         break;
       case "grep":
-        if (args.length < 2) {
+        if (args.length < 2 && !args.includes("-r")) {
           newOutput.push("grep: missing pattern or file");
           break;
         }
         {
-          const pattern = args[0];
-          const filePath = resolvePath(args[1]);
-          if (!pathExists(filePath)) {
-            newOutput.push(`grep: ${args[1]}: No such file or directory`);
-            return;
-          }
-          const node = getNode(filePath);
-          if (node && typeof node !== "object") {
-            if (node.includes(pattern)) {
-              newOutput.push(node);
-            } else {
-              newOutput.push("");
+          const recursive = args.includes("-r") || args.includes("--recursive");
+          const caseInsensitive =
+            args.includes("-i") || args.includes("--ignore-case");
+          let pattern = args[0];
+          let filePath = args[1] ? resolvePath(args[1]) : currentDir;
+          if (recursive) {
+            pattern = args[args.indexOf("-r") + 1] || args[0];
+            filePath = args[args.indexOf("-r") + 2]
+              ? resolvePath(args[args.indexOf("-r") + 2])
+              : currentDir;
+            const node = getNode(filePath);
+            if (!node || typeof node !== "object") {
+              newOutput.push(`grep: ${filePath}: No such file or directory`);
+              return;
             }
+            const findFiles = (dir, prefix = "") => {
+              const results = [];
+              for (const [name, value] of Object.entries(dir)) {
+                if (typeof value === "object") {
+                  results.push(...findFiles(value, `${prefix}${name}/`));
+                } else {
+                  const content = caseInsensitive ? value.toLowerCase() : value;
+                  const searchPattern = caseInsensitive
+                    ? pattern.toLowerCase()
+                    : pattern;
+                  if (content.includes(searchPattern)) {
+                    results.push(`${prefix}${name}: ${value}`);
+                  }
+                }
+              }
+              return results;
+            };
+            newOutput.push(findFiles(node, `${filePath}/`).join("\n") || "");
           } else {
-            newOutput.push(`grep: ${args[1]}: Is a directory`);
+            if (!pathExists(filePath)) {
+              newOutput.push(`grep: ${args[1]}: No such file or directory`);
+              return;
+            }
+            const node = getNode(filePath);
+            if (node && typeof node !== "object") {
+              const content = caseInsensitive ? node.toLowerCase() : node;
+              const searchPattern = caseInsensitive
+                ? pattern.toLowerCase()
+                : pattern;
+              if (content.includes(searchPattern)) {
+                newOutput.push(node);
+              } else {
+                newOutput.push("");
+              }
+            } else {
+              newOutput.push(`grep: ${args[1]}: Is a directory`);
+            }
           }
         }
         break;
@@ -448,19 +752,26 @@ export const Terminal = () => {
           break;
         }
         {
-          const rmPath = resolvePath(args[0]);
+          const recursive = args.includes("-r") || args.includes("--recursive");
+          const rmPath = resolvePath(args[args[0].startsWith("-") ? 1 : 0]);
           const parentPath =
             rmPath.substring(0, rmPath.lastIndexOf("/") || 1) || "/";
           const rmName = rmPath.split("/").pop();
           if (!pathExists(rmPath)) {
             newOutput.push(
-              `rm: cannot remove '${args[0]}': No such file or directory`
+              `rm: cannot remove '${
+                args[args[0].startsWith("-") ? 1 : 0]
+              }': No such file or directory`
             );
             return;
           }
           const parent = getNode(parentPath);
-          if (typeof parent[rmName] === "object" && !args.includes("-r")) {
-            newOutput.push(`rm: cannot remove '${args[0]}': Is a directory`);
+          if (typeof parent[rmName] === "object" && !recursive) {
+            newOutput.push(
+              `rm: cannot remove '${
+                args[args[0].startsWith("-") ? 1 : 0]
+              }': Is a directory`
+            );
           } else {
             delete parent[rmName];
             newOutput.push("");
@@ -613,12 +924,13 @@ export const Terminal = () => {
           whoami: "whoami - display current user",
           pwd: "pwd - print working directory",
           clear: "clear - clear terminal screen",
-          base64: "base64 - encode/decode base64\nUsage: base64 [-d] <string>",
-          grep: "grep - search text in files\nUsage: grep <pattern> <file>",
+          base64:
+            "base64 - encode/decode base64\nUsage: base64 [-d] <string|file>",
+          grep: "grep - search text in files\nOptions: -i (ignore case), -r (recursive)\nUsage: grep <pattern> <file>",
           sudo: "sudo - execute command as root (mocked)",
           mkdir: "mkdir - create directory\nUsage: mkdir <directory>",
           touch: "touch - create empty file\nUsage: touch <file>",
-          rm: "rm - remove files or directories\nOptions: -r (recursive)",
+          rm: "rm - remove files or directories\nOptions: -r (recursive)\nUsage: rm [-r] <file|dir>",
           echo: "echo - display text\nUsage: echo <text> [> <file>]",
           find: "find - search for files\nUsage: find <directory>",
           mv: "mv - move or rename files\nUsage: mv <source> <destination>",
