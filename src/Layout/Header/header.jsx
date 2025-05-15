@@ -100,6 +100,7 @@ export const WelcomeHeader = () => {
             "uuid-generator",
             "hash-service",
             "ctf-challenge",
+            "cybernexus-certificate",
           ].map((path, index) => (
             <motion.div
               key={path}

@@ -11,9 +11,10 @@ import { Cyberflow } from "./src/Pages/Cyberflow/cyberflow";
 import { Terminal } from "./src/Pages/Terminale/terminal";
 import QRCodeGenerator from "./src/Pages/Qr/qr";
 import Base64Tool from "./src/Pages/Base64/base64";
-import UuidGenerator from "./src/UUID/uuid";
 import HashGeneral from "./src/Pages/Hash/hash";
 import NasaImage from "./src/Pages/Nasa/kosmos";
+import UuidGenerator from "./src/Pages/UUID/uuid";
+import CertificateGenerator from "./src/Pages/Certificate/certificate";
 
 export const Routers = () => {
   return (
@@ -32,6 +33,7 @@ export const Routers = () => {
         <Route path="/uuid-generator" element={<UuidGenerator />} />
         <Route path="/hash-service" element={<HashGeneral />} />
         <Route path="/nasa-gallery" element={<NasaImage />} />
+        <Route path="/cybernexus-certificate" element={<CertificateGenerator />} />
       </Route>
       <Route path="*" element={<Error />} />
     </Routes>
